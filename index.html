@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="İmparatorum'un resmi sitesi - YouTube kanalı, Discord botu ve Minecraft sunucu duyuruları." />
+<meta name="author" content="İmparatorum" />
+<meta name="theme-color" content="#0d1117" />
+<title>İmparatorum | YouTube - Discord - Minecraft</title>
+<style>
+  /* ---------- Genel Reset ---------- */
+  *, *::before, *::after {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    color: #c9d1d9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ---------- Header & Navigation ---------- */
+  header {
+    background: rgba(21, 27, 38, 0.85);
+    backdrop-filter: saturate(180%) blur(12px);
+    box-shadow: 0 2px 15px rgba(88, 166, 255, 0.35);
+    position: sticky;
+    top: 0; z-index: 1000;
+    border-bottom: 1.5px solid #30363d;
+  }
+  .nav-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-size: 2.25rem;
+    color: #58a6ff;
+    font-weight: 900;
+    letter-spacing: 3.5px;
+    font-family: 'Segoe UI Black', 'Arial Black', sans-serif;
+    text-shadow: 0 0 12px #58a6ffbb;
+    user-select: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 3.5rem;
+  }
+  nav ul li {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: #8b949e;
+    position: relative;
+    padding-bottom: 8px;
+    transition: color 0.3s ease;
+    user-select: none;
+  }
+  nav ul li[aria-current="page"],
+  nav ul li:hover {
+    color: #8b5cf6;
+  }
+  nav ul li[aria-current="page"]::after,
+  nav ul li:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3.5px;
+    width: 100%;
+    background: linear-gradient(90deg, #58a6ff, #8b5cf6);
+    border-radius: 6px;
+    transition: width 0.3s ease;
+  }
+
+  /* ---------- Main Content ---------- */
+  main {
+    max-width: 1100px;
+    margin: 3.5rem auto 4rem;
+    padding: 0 2rem;
+    flex-grow: 1;
+  }
+
+  /* ---------- Section Base Styles ---------- */
+  section {
+    display: none;
+    animation: fadeInUp 0.9s ease forwards;
+  }
+  section.active {
+    display: block;
+  }
+  @keyframes fadeInUp {
+    0% {opacity: 0; transform: translateY(18px);}
+    100% {opacity: 1; transform: translateY(0);}
+  }
+
+  /* ---------- YouTube Section ---------- */
+  #home h2 {
+    font-size: 2.8rem;
+    color: #8b5cf6;
+    border-left: 10px solid #8b5cf6;
+    padding-left: 18px;
+    margin-bottom: 1.75rem;
+    font-weight: 900;
+    text-shadow: 0 0 14px #8b5cf6cc;
+    user-select: none;
+  }
+  #home .about-text {
+    max-width: 760px;
+    font-size: 1.22rem;
+    line-height: 1.7;
+    margin-bottom: 3.5rem;
+    color: #bfc7d5;
+    font-weight: 500;
+  }
+  #home .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(350px,1fr));
+    gap: 30px;
+  }
+  #home .video-wrapper iframe {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 16px;
+    border: 2px solid transparent;
+    box-shadow:
+      0 0 15px rgba(139, 92, 246, 0.3),
+      0 8px 18px rgba(88, 166, 255, 0.4);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    background-color: #010409;
+  }
+  #home .video-wrapper iframe:hover,
+  #home .video-wrapper iframe:focus-visible {
+    transform: scale(1.07);
+    border-color: #8b5cf6;
+    box-shadow:
+      0 0 35px rgba(139, 92, 246, 0.85),
+      0 12px 32px rgba(88, 166, 255, 0.8);
+    outline-offset: 6px;
+    outline: 2.5px solid #58a6ff;
+  }
+
+  /* ---------- Discord Bot Section ---------- */
+  #bot h2 {
+    font-size: 2.8rem;
+    color: #58a6ff;
+    border-left: 10px solid #58a6ff;
+    padding-left: 18px;
+    margin-bottom: 2.5rem;
+    font-weight: 900;
+    text-shadow: 0 0 14px #58a6ffbb;
+    user-select: none;
+  }
+  #bot .bot-features {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: 3.75rem;
+  }
+  #bot .feature-card {
+    flex: 1 1 340px;
+    background: rgba(24, 30, 44, 0.82);
+    border-radius: 18px;
+    padding: 28px 32px;
+    box-shadow:
+      0 0 20px rgba(88, 166, 255, 0.3);
+    backdrop-filter: saturate(180%) blur(16px);
+    border: 1.5px solid #394254;
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+  }
+  #bot .feature-card:hover,
+  #bot .feature-card:focus-within {
+    box-shadow:
+      0 0 38px rgba(139, 92, 246, 0.7);
+    border-color: #8b5cf6;
+    outline: none;
+  }
+  #bot .feature-card h3 {
+    color: #8b5cf6;
+    margin-bottom: 18px;
+    font-weight: 800;
+    user-select: none;
+    text-shadow: 0 0 8px #8b5cf6cc;
+  }
+  #bot .feature-card ul {
+    list-style: inside disc;
+    color: #cdd9e5;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    user-select: text;
+  }
+  #bot .bot-commands {
+    max-height: 260px;
+    overflow-y: auto;
+    background: rgba(12, 17, 25, 0.9);
+    border-radius: 16px;
+    padding: 22px 28px;
+    color: #a3b8ff;
+    font-family: 'Fira Mono', monospace, monospace;
+    user-select: text;
+    line-height: 1.5;
+    font-size: 1.1rem;
+    box-shadow: inset 0 0 18px rgba(88, 166, 255, 0.4);
+    border: 1.5px solid #394254;
+    margin-bottom: 42px;
+    scrollbar-width: thin;
+    scrollbar-color: #58a6ff #161b22;
+  }
+  #bot .bot-commands::-webkit-scrollbar {
+    width: 8px;
+  }
+  #bot .bot-commands::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  #bot .bot-commands::-webkit-scrollbar-thumb {
+    background: #58a6ff;
+    border-radius: 12px;
+  }
+  #bot .btn-discord {
+    display: inline-block;
+    background: linear-gradient(135deg, #58a6ff 0%, #8b5cf6 100%);
+    color: #f0f6fc;
+    padding: 18px 42px;
+    font-weight: 700;
+    border-radius: 60px;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.9);
+    transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.2s ease;
+    user-select: none;
+    border: none;
+    filter: drop-shadow(0 0 8px #58a6ffaa);
+  }
+  #bot .btn-discord:hover,
+  #bot .btn-discord:focus-visible {
+    background: linear-gradient(135deg, #8b5cf6 0%, #58a6ff 100%);
+    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.9);
+    outline: none;
+    transform: scale(1.08);
+  }
+  #bot .btn-discord:active {
+    transform: scale(0.95);
+  }
+
+  /* ---------- Minecraft Section ---------- */
+  #minecraft {
+    text-align: center;
+    font-size: 4rem;
+    font-weight: 900;
+    color: #8b5cf6;
+    user-select: none;
+    padding: 100px 20px;
+    letter-spacing: 6px;
+    text-shadow: 0 0 18px #8b5cf6cc;
+    font-family: 'Segoe UI Black', 'Arial Black', sans-serif;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 620px) {
+    .nav-container {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    nav ul {
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    #home .videos-grid {
+      grid-template-columns: 1fr;
+    }
+    #bot .bot-features {
+      flex-direction: column;
+    }
+    #bot .feature-card {
+      flex: 1 1 100%;
+    }
+    #home h2, #bot h2 {
+      font-size: 2.1rem;
+    }
+    #minecraft {
+      font-size: 3.2rem;
+      letter-spacing: 4px;
+      padding: 80px 10px;
+    }
+    #bot .btn-discord {
+      padding: 16px 36px;
+      font-size: 1.1rem;
+    }
+  }
+
+</style>
+</head>
+<body>
+<header role="banner">
+  <div class="nav-container">
+    <div class="logo" tabindex="0" aria-label="İmparatorum resmi sitesi">İmparatorum</div>
+    <nav role="navigation" aria-label="Site navigasyonu">
+      <ul role="tablist">
+        <li role="tab" tabindex="0" aria-selected="true" aria-controls="home" id="tab-home" class="nav-item active">YouTube</li>
+        <li role="tab" tabindex="-1" aria-selected="false" aria-controls="bot" id="tab-bot" class="nav-item">Discord Bot</li>
+        <li role="tab" tabindex="-1" aria-selected="false" aria-controls="minecraft" id="tab-minecraft" class="nav-item">Minecraft Sunucu</li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main role="main" class="container">
+  <!-- YouTube Section -->
+  <section id="home" role="tabpanel" tabindex="0" aria-labelledby="tab-home" class="active">
+    <h2>YouTube Kanalı Hakkında</h2>
+    <p class="about-text" lang="tr">
+      Merhaba! Ben İmparatorum, 15 yaşında bir içerik üreticisiyim. Mesleki eğitim merkezinde okuyorum ve haftanın 4 günü işte çalışırken,
+      1 gün okulda okuyorum. YouTube'da survival videoları çekip montajlayarak paylaşıyorum. Kanalımda Minecraft, survival, oyun videoları ve
+      eğlenceli içerikler bulabilirsiniz.
+    </p>
+    <div class="videos-grid" aria-label="YouTube videoları">
+      <div class="video-wrapper">
+        <iframe
+          loading="lazy"
+          src="https://www.youtube.com/embed/VIDEO_ID_1"
+          title="YouTube Video 1 - İmparatorum"
+          allowfullscreen
+          frameborder="0"
+          aria-describedby="video-desc-1"
+        ></iframe>
+        <span id="video-desc-1" class="sr-only">Minecraft survival başlangıç videosu</span>
+      </div>
+      <div class="video-wrapper">
+        <iframe
+          loading="lazy"
+          src="https://www.youtube.com/embed/VIDEO_ID_2"
+          title="YouTube Video 2 - İmparatorum"
+          allowfullscreen
+          frameborder="0"
+          aria-describedby="video-desc-2"
+        ></iframe>
+        <span id="video-desc-2" class="sr-only">Minecraft köyü yapımı</span>
+      </div>
+      <div class="video-wrapper">
+        <iframe
+          loading="lazy"
+          src="https://www.youtube.com/embed/VIDEO_ID_3"
+          title="YouTube Video 3 - İmparatorum"
+          allowfullscreen
+          frameborder="0"
+          aria-describedby="video-desc-3"
+        ></iframe>
+        <span id="video-desc-3" class="sr-only">Minecraft bot kullanımı</span>
+      </div>
+      <div class="video-wrapper">
+        <iframe
+          loading="lazy"
+          src="https://www.youtube.com/embed/VIDEO_ID_4"
+          title="YouTube Video 4 - İmparatorum"
+          allowfullscreen
+          frameborder="0"
+          aria-describedby="video-desc-4"
+        ></iframe>
+        <span id="video-desc-4" class="sr-only">Minecraft survival ileri seviye</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Discord Bot Section -->
+  <section id="bot" role="tabpanel" tabindex="0" aria-labelledby="tab-bot">
+    <h2>Discord Bot Özellikleri</h2>
+    <div class="bot-features">
+      <article class="feature-card" tabindex="0" aria-label="Genel özellikler">
+        <h3>Genel Özellikler</h3>
+        <ul>
+          <li>7/24 aktif ve stabil çalışma</li>
+          <li>Otomatik YouTube video bildirimi</li>
+          <li>Seviye sistemi ve XP kazanma</li>
+          <li>Otomatik ses kanalı yönetimi</li>
+          <li>Ekonomi ve mini oyunlar</li>
+          <li>Gelişmiş moderasyon komutları</li>
+        </ul>
+      </article>
+      <article class="feature-card" tabindex="0" aria-label="Eğlence komutları">
+        <h3>Eğlence Komutları</h3>
+        <ul>
+          <li>/balıktut - Balık tutma oyunu</li>
+          <li>/kapış - Karşılıklı kapışma</li>
+          <li>/yemek - Yemek tarifi</li>
+          <li>/şanslıgun - Günlük şansını öğren</li>
+          <li>/burç - Burç yorumları</li>
+        </ul>
+      </article>
+    </div>
+
+    <h3>Bot Komutları</h3>
+    <pre class="bot-commands" aria-label="Bot komut listesi" readonly tabindex="0">
+/çal       - Müzik çal
+/durdur    - Müzik durdur
+/kanal     - Ses kanalına katıl
+/çık       - Ses kanalından çık
+/level     - Seviye bilgisi
+/günlükgörev - Günlük görevler
+/yemek     - Yemek tarifi göster
+/kapış     - Eğlenceli kapışma
+/balıktut  - Balık tutma
+    </pre>
+
+    <button
+      class="btn-discord"
+      aria-label="Discord sunucuma katıl"
+      onclick="window.open('https://discord.gg/YOUR_DISCORD_INVITE', '_blank', 'noopener')"
+    >Discord Sunucuma Katıl</button>
+  </section>
+
+  <!-- Minecraft Section -->
+  <section id="minecraft" role="tabpanel" tabindex="0" aria-labelledby="tab-minecraft" >
+    <div class="minecraft">YAKINDA...</div>
+  </section>
+</main>
+
+<script>
+  // Tab navigation accessibility + keyboard support
+  const tabs = document.querySelectorAll('[role="tab"]');
+  const tabPanels = document.querySelectorAll('[role="tabpanel"]');
+
+  function activateTab(tab) {
+    tabs.forEach(t => {
+      t.setAttribute('aria-selected', 'false');
+      t.setAttribute('tabindex', '-1');
+      t.classList.remove('active');
+    });
+    tab.setAttribute('aria-selected', 'true');
+    tab.setAttribute('tabindex', '0');
+    tab.classList.add('active');
+
+    const panelId = tab.getAttribute('aria-controls');
+    tabPanels.forEach(panel => {
+      if(panel.id === panelId){
+        panel.classList.add('active');
+        panel.setAttribute('tabindex', '0');
+      } else {
+        panel.classList.remove('active');
+        panel.setAttribute('tabindex', '-1');
+      }
+    });
+    tab.focus();
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => activateTab(tab));
+    tab.addEventListener('keydown', e => {
+      let index = Array.prototype.indexOf.call(tabs, e.target);
+      if(e.key === "ArrowRight"){
+        e.preventDefault();
+        activateTab(tabs[(index + 1) % tabs.length]);
+      } else if(e.key === "ArrowLeft"){
+        e.preventDefault();
+        activateTab(tabs[(index - 1 + tabs.length) % tabs.length]);
+      }
+    });
+  });
+
+  // Default tab active on load
+  activateTab(tabs[0]);
+</script>
+
+<!-- Screen reader only helper -->
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+
+</body>
+</html>
