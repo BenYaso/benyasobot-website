@@ -3,727 +3,463 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaming Hub</title>
+    <title>Kanki'nin Dünyası</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Global Stil */
+        :root {
+            --primary: #6e48aa;
+            --secondary: #9d50bb;
+            --dark: #1e1e1e;
+            --light: #f5f5f5;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            line-height: 1.6;
-            min-height: 100vh;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
         }
-
-        header {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
+        
+        /* Animasyonlar */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-        }
-
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: #ffd700;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-
-        .nav-links a:hover::before,
-        .nav-links a.active::before {
-            width: 80%;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #ffd700;
-            background: rgba(255, 215, 0, 0.1);
-        }
-
-        main {
-            margin-top: 80px;
-            padding: 2rem 0;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 4rem 0;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
-            margin-bottom: 3rem;
-            transform: scale(0.9);
-            opacity: 0;
-            animation: zoomIn 1s ease forwards;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #ffd700, #ffaa00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            transform: translateY(-20px);
-            opacity: 0;
-            animation: slideInDown 0.8s ease forwards;
-            animation-delay: 0.2s;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideInUp 0.8s ease forwards;
-            animation-delay: 0.4s;
-        }
-
-        .section {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            backdrop-filter: blur(10px);
-            transform: translateY(30px);
-            opacity: 0;
-            animation: slideInUp 0.8s ease forwards;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .section:nth-child(1) { animation-delay: 0.1s; }
-        .section:nth-child(2) { animation-delay: 0.2s; }
-        .section:nth-child(3) { animation-delay: 0.3s; }
-
-        .section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #ffd700;
-        }
-
-        .videos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .video-card {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: slideInUp 0.6s ease forwards;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-
-        .video-card:nth-child(1) { animation-delay: 0.1s; }
-        .video-card:nth-child(2) { animation-delay: 0.2s; }
-        .video-card:nth-child(3) { animation-delay: 0.3s; }
-        .video-card:nth-child(4) { animation-delay: 0.4s; }
-
-        .video-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: #ffd700;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .video-thumbnail {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .video-thumbnail::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .video-card:hover .video-thumbnail::before {
-            left: 100%;
-        }
-
-        .video-card:hover .video-thumbnail {
-            transform: scale(1.1);
-        }
-
-        .video-info {
-            padding: 1rem;
-        }
-
-        .video-title {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-
-        .video-description {
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-
-        .bot-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .feature-card {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem;
-            border-radius: 10px;
-            text-align: center;
-            transition: all 0.4s ease;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: slideInUp 0.6s ease forwards;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-
-        .feature-card:nth-child(1) { animation-delay: 0.1s; }
-        .feature-card:nth-child(2) { animation-delay: 0.2s; }
-        .feature-card:nth-child(3) { animation-delay: 0.3s; }
-        .feature-card:nth-child(4) { animation-delay: 0.4s; }
-
-        .feature-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            background: rgba(255, 215, 0, 0.1);
-            border-color: #ffd700;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover .feature-icon {
-            transform: rotate(360deg) scale(1.2);
-        }
-
-        .commands-list {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-top: 2rem;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: slideInUp 0.6s ease forwards;
-            animation-delay: 0.5s;
-        }
-
-        .command {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            transform: translateX(-20px);
-            opacity: 0;
-            animation: slideInLeft 0.4s ease forwards;
-        }
-
-        .command:nth-child(1) { animation-delay: 0.6s; }
-        .command:nth-child(2) { animation-delay: 0.7s; }
-        .command:nth-child(3) { animation-delay: 0.8s; }
-        .command:nth-child(4) { animation-delay: 0.9s; }
-        .command:nth-child(5) { animation-delay: 1.0s; }
-        .command:nth-child(6) { animation-delay: 1.1s; }
-
-        .command:hover {
-            background: rgba(255, 215, 0, 0.1);
-            padding-left: 1rem;
-            border-left: 3px solid #ffd700;
-        }
-
-        .command:last-child {
-            border-bottom: none;
-        }
-
-        .command-name {
-            font-weight: bold;
-            color: #ffd700;
-        }
-
-        .discord-button {
-            background: linear-gradient(135deg, #7289da, #5b6eae);
-            color: white;
+        
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .tab-btn {
+            background: transparent;
+            color: white;
             border: none;
-            border-radius: 25px;
+            padding: 0.8rem 1.5rem;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.4s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: slideInUp 0.6s ease forwards;
-            animation-delay: 1.2s;
-            box-shadow: 0 5px 20px rgba(114, 137, 218, 0.3);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 600;
         }
-
-        .discord-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(114, 137, 218, 0.5);
-            background: linear-gradient(135deg, #5b6eae, #7289da);
+        
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
         }
-
-        .discord-button:active {
-            transform: translateY(-1px) scale(1.02);
+        
+        .tab-btn.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-
-        .coming-soon {
+        
+        /* Content Sections */
+        .section {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            display: none;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
             text-align: center;
-            padding: 4rem 0;
-            transform: scale(0.8);
-            opacity: 0;
-            animation: zoomIn 1.2s ease forwards;
-            animation-delay: 0.3s;
-        }
-
-        .coming-soon h2 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background: linear-gradient(to right, #6e48aa, #9d50bb);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: slideInDown 1s ease forwards, colorShift 3s ease-in-out infinite;
-            animation-delay: 0.5s, 1.5s;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
-
-        .coming-soon p {
-            font-size: 1.5rem;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideInUp 1s ease forwards;
-            animation-delay: 0.7s;
+        
+        /* YouTube Section */
+        .youtube-container {
+            max-width: 1000px;
+            margin: 0 auto;
         }
-
-        @keyframes slideInUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        
+        .channel-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        @keyframes slideInDown {
-            from {
-                transform: translateY(-30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
         }
-
-        @keyframes slideInLeft {
-            from {
-                transform: translateX(-30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes zoomIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes colorShift {
-            0%, 100% {
-                background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
-            }
-            25% {
-                background: linear-gradient(45deg, #4ecdc4, #45b7d1, #96ceb4, #ff6b6b);
-            }
-            50% {
-                background: linear-gradient(45deg, #45b7d1, #96ceb4, #ff6b6b, #4ecdc4);
-            }
-            75% {
-                background: linear-gradient(45deg, #96ceb4, #ff6b6b, #4ecdc4, #45b7d1);
-            }
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #ffd700, #ffaa00);
+        
+        .video-card {
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(45deg, #ffaa00, #ffd700);
+        
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
-            .nav-links {
-                gap: 1rem;
+        
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .video-info {
+            padding: 1.2rem;
+        }
+        
+        .video-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Discord Section */
+        .discord-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .bot-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .features-list {
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .features-list li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+        
+        .features-list li::before {
+            content: "•";
+            color: var(--secondary);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .commands-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .commands-table th, .commands-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .commands-table th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+        }
+        
+        .commands-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Minecraft Section */
+        .minecraft-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+        }
+        
+        .coming-soon {
+            font-size: 5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #ff8a00, #e52e71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: auto;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-5px) scale(1.2);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+                width: 100%;
             }
-
-            .hero h1 {
+            
+            .tab-btn {
+                width: 100%;
+            }
+            
+            .section-title {
                 font-size: 2rem;
             }
-
-            .videos-grid {
-                grid-template-columns: 1fr;
+            
+            .coming-soon {
+                font-size: 3rem;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <a href="#" class="logo">Gaming Hub</a>
-            <ul class="nav-links">
-                <li><a href="#" onclick="showTab('youtube')" class="active">YouTube</a></li>
-                <li><a href="#" onclick="showTab('discord')">Discord Bot</a></li>
-                <li><a href="#" onclick="showTab('minecraft')">Minecraft</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="container">
-        <!-- YouTube Tab -->
-        <div id="youtube" class="tab-content active">
-            <div class="hero">
-                <h1>YouTube Kanalım</h1>
-                <p>Gaming, eğlence ve daha fazlası için beni takip et!</p>
-            </div>
-
-            <div class="section">
-                <h2>Kanal Hakkında</h2>
-                <p>Merhaba! Bu kanalda gaming videoları, eğlenceli anlar ve çeşitli oyun rehberleri bulabilirsiniz. Düzenli olarak yeni içerikler yayınlıyorum ve topluluğumuzla birlikte eğlenceli zaman geçiriyoruz. Abone olmayı unutmayın!</p>
-            </div>
-
-            <div class="section">
-                <h2>Son Videolar</h2>
-                <div class="videos-grid">
-                    <div class="video-card">
-                        <div class="video-thumbnail">▶️</div>
-                        <div class="video-info">
-                            <div class="video-title">Minecraft Survival Rehberi</div>
-                            <div class="video-description">Minecraft'ta hayatta kalma ipuçları ve püf noktaları</div>
-                        </div>
-                    </div>
-                    <div class="video-card">
-                        <div class="video-thumbnail">▶️</div>
-                        <div class="video-info">
-                            <div class="video-title">En İyi PvP Taktikleri</div>
-                            <div class="video-description">PvP'de rakiplerinizi yenmenin sırları</div>
-                        </div>
-                    </div>
-                    <div class="video-card">
-                        <div class="video-thumbnail">▶️</div>
-                        <div class="video-info">
-                            <div class="video-title">Redstone Mühendisliği</div>
-                            <div class="video-description">Karmaşık redstone mekanizmaları yapımı</div>
-                        </div>
-                    </div>
-                    <div class="video-card">
-                        <div class="video-thumbnail">▶️</div>
-                        <div class="video-info">
-                            <div class="video-title">Eğlenceli Anlar Montajı</div>
-                            <div class="video-description">Canlı yayınlardan en komik anlar</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-tabs">
+            <button class="tab-btn active" data-tab="youtube"><i class="fab fa-youtube"></i> YouTube</button>
+            <button class="tab-btn" data-tab="discord"><i class="fab fa-discord"></i> Discord Bot</button>
+            <button class="tab-btn" data-tab="minecraft"><i class="fas fa-cube"></i> Minecraft</button>
         </div>
-
-        <!-- Discord Bot Tab -->
-        <div id="discord" class="tab-content">
-            <div class="hero">
-                <h1>Discord Botum</h1>
-                <p>Sunucunuzu yönetmek için gelişmiş Discord botu</p>
+    </nav>
+    
+    <!-- YouTube Section -->
+    <section id="youtube" class="section active">
+        <h1 class="section-title">YouTube Kanalım</h1>
+        <div class="youtube-container">
+            <div class="channel-info">
+                <h2>Kanki'nin YouTube Dünyası</h2>
+                <p>Merhaba! Ben Kanki. Bu kanalda eğlenceli içerikler, oyun videoları ve daha fazlasını paylaşıyorum. Abone olmayı ve bildirim zilini açmayı unutmayın!</p>
+                <p>Kanalımda şu anda 4 video bulunmaktadır. İlerleyen zamanlarda daha fazla içerikle karşınızda olacağım!</p>
             </div>
-
-            <div class="section">
-                <h2>Bot Özellikleri</h2>
-                <p>BenYaso BOT sadece benim Discord sunucumda aktif olarak çalışmaktadır. Sunucu üyelerimiz için özel olarak geliştirdiğim kapsamlı bot sistemi.</p>
-                <div class="bot-features">
-                    <div class="feature-card">
-                        <div class="feature-icon">🎵</div>
-                        <h3>Müzik Sistemi</h3>
-                        <p>YouTube entegrasyonu ile kaliteli müzik çalma, kuyruk yönetimi ve ses kontrolleri</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">💰</div>
-                        <h3>Ekonomi Sistemi</h3>
-                        <p>YASO Coin, jeton sistemi, günlük görevler, bahis oyunları ve banka yatırımları</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🤖</div>
-                        <h3>Yapay Zeka</h3>
-                        <p>Groq API ile Llama 3.1 70B model - Akıllı sohbet ve yardım sistemi</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🛡️</div>
-                        <h3>Moderasyon & Güvenlik</h3>
-                        <p>Otomatik küfür filtreleme, spam koruması ve gelişmiş uyarı sistemi</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🎮</div>
-                        <h3>Eğlence & Oyunlar</h3>
-                        <p>Bahis oyunları, yarışmalar, doğum günü kutlamaları ve etkileşimli komutlar</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🔔</div>
-                        <h3>Bildirim Sistemi</h3>
-                        <p>YouTube video bildirimleri, haber güncellemeleri ve sunucu duyuruları</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🌟</div>
-                        <h3>Seviye Sistemi</h3>
-                        <p>XP kazanma, seviye atlama, özel roller ve boost sistemleri</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">🍽️</div>
-                        <h3>Yaşam Asistanı</h3>
-                        <p>Yemek tarifleri, hava durumu, ezan saatleri ve günlük hayat araçları</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2>Bot Komutları</h2>
-                <div class="commands-list">
-                    <div class="command">
-                        <span class="command-name">/çal [şarkı]</span>
-                        <span>YouTube'dan müzik çalar</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/bahis</span>
-                        <span>Jeton ile bahis oyunları menüsü</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/yapay-zeka [mesaj]</span>
-                        <span>AI ile sohbet et (mention ile de çalışır)</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/zombiöldür</span>
-                        <span>Zombi avla ve YASO Coin kazan</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/maden</span>
-                        <span>Maden kaz ve değerli materyaller bul</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/günlük</span>
-                        <span>Günlük YASO Coin ödülünü al</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/market</span>
-                        <span>XP boost ve jeton satın al</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/yatır [miktar]</span>
-                        <span>Bankaya para yatır ve faiz kazan</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/film [isim]</span>
-                        <span>IMDB'den film bilgisi getir</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/hava [şehir]</span>
-                        <span>Hava durumu bilgisi al</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/yemeköner</span>
-                        <span>Rastgele yemek önerisi</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/oyunöner</span>
-                        <span>Oynayabileceğin oyun önerisi</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/ezan [şehir]</span>
-                        <span>Ezan saatlerini öğren</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/yarismabaslat</span>
-                        <span>Sunucu için yarışma başlat</span>
-                    </div>
-                    <div class="command">
-                        <span class="command-name">/afk [sebep]</span>
-                        <span>AFK moduna gir</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2>Sunucuma Katıl</h2>
-                <p><strong>BenYaso BOT</strong> ile tanışmak ve tüm bu özellikleri deneyimlemek için Discord sunucuma katılabilirsin! 150+ komut, gelişmiş ekonomi sistemi, yapay zeka desteği ve daha fazlası seni bekliyor.</p>
-                <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 10px; margin: 1rem 0;">
-                    <h4 style="color: #ffd700; margin-bottom: 1rem;">🎮 Sunucu Özellikleri:</h4>
-                    <ul style="color: #fff; opacity: 0.9; line-height: 1.8;">
-                        <li>🤖 <strong>150+ Bot Komutu</strong> - Her ihtiyacına uygun</li>
-                        <li>💰 <strong>Gelişmiş Ekonomi</strong> - YASO Coin, jeton ve bahis sistemi</li>
-                        <li>🎵 <strong>Kaliteli Müzik</strong> - YouTube entegrasyonu</li>
-                        <li>🧠 <strong>Yapay Zeka</strong> - Llama 3.1 70B model ile sohbet</li>
-                        <li>🎯 <strong>Günlük Etkinlikler</strong> - Yarışmalar ve ödüller</li>
-                        <li>🛡️ <strong>Güvenli Ortam</strong> - Aktif moderasyon</li>
-                    </ul>
-                </div>
-                <a href="#" class="discord-button">🎮 Discord Sunucuma Katıl</a>
-            </div>
-        </div>
-
-        <!-- Minecraft Tab -->
-        <div id="minecraft" class="tab-content">
-            <div class="hero">
-                <h1>Minecraft Sunucum</h1>
-            </div>
-
-            <div class="section">
-                <div class="coming-soon">
-                    <h2>YAKINDA...</h2>
-                    <p>Yeni Minecraft sunucumuz çok yakında açılacak!</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        function showTab(tabName) {
-            // Tüm tab içeriklerini gizle
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-            });
-
-            // Tüm nav linklerinden active class'ını kaldır
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-            });
-
-            // Seçilen tab'ı göster
-            document.getElementById(tabName).classList.add('active');
             
-            // Seçilen nav link'e active class'ı ekle
-            event.target.classList.add('active');
-
-            // Animasyonları yeniden tetikle
-            const sections = document.querySelectorAll('#' + tabName + ' .section');
-            sections.forEach((section, index) => {
-                section.style.animation = 'none';
-                setTimeout(() => {
-                    section.style.animation = `slideInUp 0.8s ease forwards`;
-                    section.style.animationDelay = `${0.1 * (index + 1)}s`;
-                }, 10);
+            <div class="videos-grid">
+                <!-- Video 1 -->
+                <div class="video-card">
+                    <img src="https://via.placeholder.com/300x180?text=Video+1" alt="Video 1" class="video-thumbnail">
+                    <div class="video-info">
+                        <h3 class="video-title">İlk Videom - Tanışma</h3>
+                        <p>Kanalıma hoş geldiniz!</p>
+                    </div>
+                </div>
+                
+                <!-- Video 2 -->
+                <div class="video-card">
+                    <img src="https://via.placeholder.com/300x180?text=Video+2" alt="Video 2" class="video-thumbnail">
+                    <div class="video-info">
+                        <h3 class="video-title">Minecraft Maceraları #1</h3>
+                        <p>Yeni dünyaya başlangıç!</p>
+                    </div>
+                </div>
+                
+                <!-- Video 3 -->
+                <div class="video-card">
+                    <img src="https://via.placeholder.com/300x180?text=Video+3" alt="Video 3" class="video-thumbnail">
+                    <div class="video-info">
+                        <h3 class="video-title">Discord Botu Yapımı</h3>
+                        <p>Kendi botunuzu nasıl yaparsınız?</p>
+                    </div>
+                </div>
+                
+                <!-- Video 4 -->
+                <div class="video-card">
+                    <img src="https://via.placeholder.com/300x180?text=Video+4" alt="Video 4" class="video-thumbnail">
+                    <div class="video-info">
+                        <h3 class="video-title">Vlog: Günlük Hayatım</h3>
+                        <p>Beni daha yakından tanıyın!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Discord Section -->
+    <section id="discord" class="section">
+        <h1 class="section-title">Discord Botum</h1>
+        <div class="discord-container">
+            <div class="bot-card">
+                <h2>KankiBot</h2>
+                <p>KankiBot, sunucunuzu yönetmek ve eğlence sağlamak için tasarlanmış çok yönlü bir Discord botudur. Kolay kullanımı ve geniş özellikleriyle sunucunuzu bir üst seviyeye taşır.</p>
+                
+                <h3 style="margin-top: 1.5rem;">Öne Çıkan Özellikler</h3>
+                <ul class="features-list">
+                    <li>Moderasyon komutları (ban, kick, mute vb.)</li>
+                    <li>Eğlence komutları (şans, gif, şarkı vb.)</li>
+                    <li>Özel rol yönetim sistemi</li>
+                    <li>Seviye ve ödül sistemi</li>
+                    <li>Özel hoşgeldin mesajları</li>
+                    <li>7/24 çalışma garantisi</li>
+                </ul>
+                
+                <h3>Bot Komutları</h3>
+                <table class="commands-table">
+                    <thead>
+                        <tr>
+                            <th>Komut</th>
+                            <th>Açıklama</th>
+                            <th>Kullanım</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>!moderasyon</td>
+                            <td>Moderasyon komutlarını gösterir</td>
+                            <td>!moderasyon</td>
+                        </tr>
+                        <tr>
+                            <td>!ban</td>
+                            <td>Kullanıcıyı yasaklar</td>
+                            <td>!ban @kullanıcı [sebep]</td>
+                        </tr>
+                        <tr>
+                            <td>!mute</td>
+                            <td>Kullanıcıyı susturur</td>
+                            <td>!mute @kullanıcı [süre] [sebep]</td>
+                        </tr>
+                        <tr>
+                            <td>!şans</td>
+                            <td>Rastgele bir şans sonucu verir</td>
+                            <td>!şans</td>
+                        </tr>
+                        <tr>
+                            <td>!seviye</td>
+                            <td>Seviyenizi gösterir</td>
+                            <td>!seviye</td>
+                        </tr>
+                        <tr>
+                            <td>!yardım</td>
+                            <td>Tüm komutları listeler</td>
+                            <td>!yardım</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Minecraft Section -->
+    <section id="minecraft" class="section">
+        <div class="minecraft-container">
+            <h1 class="coming-soon">YAKINDA...</h1>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p>© 2023 Kanki. Tüm hakları saklıdır.</p>
+        <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+    </footer>
+    
+    <script>
+        // Tab Switching
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const sections = document.querySelectorAll('.section');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and sections
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                sections.forEach(section => section.classList.remove('active'));
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Show corresponding section
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
             });
-        }
-
-        // Sayfa yüklendiğinde animasyonları başlat
-        window.addEventListener('load', function() {
-            const activeTab = document.querySelector('.tab-content.active');
-            if (activeTab) {
-                const sections = activeTab.querySelectorAll('.section');
-                sections.forEach((section, index) => {
-                    section.style.animationDelay = `${0.1 * (index + 1)}s`;
-                });
-            }
         });
+        
+        // Add animation to elements when they come into view
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.video-card, .bot-card, .commands-table');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        // Set initial state for animation
+        document.querySelectorAll('.video-card, .bot-card, .commands-table').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
     </script>
 </body>
 </html>
