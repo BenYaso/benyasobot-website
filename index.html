@@ -240,92 +240,6 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Status badge mobile */
-        .status-badge {
-            position: absolute;
-            top: 15%;
-            right: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: var(--blur);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 0.8rem 1.2rem;
-            font-size: 0.8rem;
-            font-weight: 500;
-            animation: float 3s ease-in-out infinite;
-            z-index: 10;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .status-badge::before {
-            content: '🟢';
-            margin-right: 0.5rem;
-        }
-
-        /* Mobile specific fixes */
-        @media (max-width: 768px) {
-            .hero {
-                padding: 6rem 0.5rem 2rem;
-                text-align: center;
-                overflow-x: hidden;
-            }
-            
-            .hero-content {
-                max-width: 100%;
-                padding: 0 0.5rem;
-                margin: 0 auto;
-                text-align: center;
-            }
-            
-            .hero h1 {
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
-                width: 100%;
-            }
-            
-            .hero-subtitle {
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
-                width: 100%;
-            }
-            
-            .hero-description {
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
-                width: 100%;
-                padding: 0 0.5rem;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-                margin: 0 auto;
-            }
-            
-            .cta-button {
-                width: 100%;
-                max-width: 280px;
-                margin: 0 auto;
-            }
-            
-            .status-badge {
-                position: relative;
-                margin: 0 auto 2rem;
-                display: block;
-                width: fit-content;
-                top: auto;
-                right: auto;
-            }
-        }
-
         /* Simplified sections */
         .section {
             padding: 4rem 1rem;
@@ -554,63 +468,6 @@
 
         /* Mobile optimizations */
         @media (max-width: 768px) {
-            .hero {
-                padding: 6rem 0.5rem 2rem;
-                text-align: center;
-                overflow-x: hidden;
-            }
-            
-            .hero-content {
-                max-width: 100%;
-                padding: 0 0.5rem;
-                margin: 0 auto;
-                text-align: center;
-            }
-            
-            .hero h1 {
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
-                width: 100%;
-            }
-            
-            .hero-subtitle {
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
-                width: 100%;
-            }
-            
-            .hero-description {
-                text-align: center;
-                margin-left: auto;
-                margin-right: auto;
-                width: 100%;
-                padding: 0 0.5rem;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-                margin: 0 auto;
-            }
-            
-            .cta-button {
-                width: 100%;
-                max-width: 280px;
-                margin: 0 auto;
-            }
-            
-            .status-badge {
-                position: relative;
-                margin: 0 auto 2rem;
-                display: block;
-                width: fit-content;
-                top: auto;
-                right: auto;
-            }
-            
             .nav-toggle {
                 display: block;
             }
@@ -645,6 +502,19 @@
                 padding: 1rem;
                 border-radius: 10px;
                 background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                margin: 0 auto;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 280px;
+                margin: 0 auto;
             }
             
             .grid {
@@ -772,9 +642,6 @@
     </header>
 
     <section class="hero" id="home">
-        <div class="status-badge">
-            Sadece Sunucu Üyeleri
-        </div>
         <div class="hero-content">
             <h1>BenYasoBOT</h1>
             <p class="hero-subtitle">Yeni Nesil Yapay Zeka Discord Botu</p>
