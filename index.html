@@ -156,7 +156,7 @@
             content: '';
             width: 40px;
             height: 40px;
-            background-image: url('https://i.postimg.cc/V6TjLsH5/avatar-Head2.png');
+            background-image: url('YOUR_POSTIMAGES_LOGO_URL_HERE');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -706,53 +706,16 @@
             100% { background-position: 200% 0; }
         }
 
-        /* Exclusive Access Badge */
-        .exclusive-badge {
-            position: fixed;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-            background: var(--secondary-gradient);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 15px;
-            font-weight: 600;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-            animation: exclusivePulse 3s ease-in-out infinite;
-        }
-
-        @keyframes exclusivePulse {
-            0%, 100% { transform: translateY(-50%) scale(1); }
-            50% { transform: translateY(-50%) scale(1.05); }
-        }
-
-        .exclusive-badge::before {
-            content: '🔐';
-            margin-right: 0.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .exclusive-badge {
-                position: static;
-                transform: none;
-                margin: 1rem;
-                text-align: center;
-            }
-        }
+        /* Exclusive Access Badge - REMOVED */
     </style>
 </head>
 <body>
     <div class="animated-bg"></div>
     <div class="particles" id="particles"></div>
     
-    <div class="exclusive-badge">
-        Özel Erişim
-    </div>
-    
     <header id="header">
         <nav>
-            <a href="#" class="logo">BenYaso Bot</a>
+            <a href="#" class="logo">YASO Bot</a>
             <ul class="nav-links">
                 <li><a href="#home">Ana Sayfa</a></li>
                 <li><a href="#features">Özellikler</a></li>
@@ -770,7 +733,7 @@
             <h1>YASO Bot</h1>
             <p>Özel Discord sunucumuz için özel olarak geliştirilmiş yapay zeka destekli, müzik, oyun ve ekonomi sistemi ile donatılmış premium bot deneyimi</p>
             <div class="hero-buttons">
-                <a href="YOUR_DISCORD_INVITE_LINK_HERE" class="cta-button">Sunucuya Katıl</a>
+                <a href="https://discord.gg/84mz5XDgP3" class="cta-button" target="_blank">Sunucuya Katıl</a>
                 <a href="#features" class="cta-button secondary">Özellikleri Keşfet</a>
             </div>
         </div>
@@ -833,6 +796,30 @@
                     <h3>Akıllı Oyun Önerileri</h3>
                     <p>PC, mobil, web oyunları için kategorize öneriler. Indie, AAA, strateji, FPS, RPG gibi türlere göre filtreleme. Kişiselleştirilmiş oyun keşif sistemi ve trend analizleri.</p>
                 </div>
+
+                <div class="feature-card animate-on-scroll stagger-animation" style="--stagger-delay: 10">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Görsel Oluşturma</h3>
+                    <p>Pollinations Flux ile 7/24 görsel oluşturma, 6 farklı stil seçeneği, akıllı Türkçe yazışan İngilizce çevirme ve 10-15 saniyede hızlı üretim. Yaratıcılığınızı sınırsız keşfedin.</p>
+                </div>
+
+                <div class="feature-card animate-on-scroll stagger-animation" style="--stagger-delay: 11">
+                    <div class="feature-icon">🎉</div>
+                    <h3>Sosyal Özellikler</h3>
+                    <p>AFK sistemi, otomatik doğum günü kutlamaları, bot esprili yanıtları, otomatik hoş geldin/güle güle mesajları. Sunucu atmosferini canlandıran eğlenceli özellikler.</p>
+                </div>
+
+                <div class="feature-card animate-on-scroll stagger-animation" style="--stagger-delay: 12">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Moderasyon Sistemi</h3>
+                    <p>Otomatik küfür filtresi, spam koruması, 5 uyarıda otomatik mute, akıllı mute sistemi. Sunucu düzenini koruyarak güvenli bir ortam sağlar.</p>
+                </div>
+
+                <div class="feature-card animate-on-scroll stagger-animation" style="--stagger-delay: 13">
+                    <div class="feature-icon">🎧</div>
+                    <h3>Ses Kanalı Özellikleri</h3>
+                    <p>Otomatik odalar (2, 3, 4, 5 kişilik), oda kontrolü, kişisel odalar. Kullanıcılar kendi isimlerini otomatik oda oluşturabilir ve yönetebilir.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -842,7 +829,7 @@
             <h2 class="section-title animate-on-scroll">Bot İstatistikleri</h2>
             <div class="stats-grid">
                 <div class="stat-card animate-on-scroll stagger-animation" style="--stagger-delay: 1">
-                    <div class="stat-number" data-target="50">0</div>
+                    <div class="stat-number" data-target="70">0</div>
                     <div class="stat-label">Aktif Komut</div>
                 </div>
                 <div class="stat-card animate-on-scroll stagger-animation" style="--stagger-delay: 2">
@@ -951,12 +938,24 @@
                         <li>/hava [şehir] - Hava durumu bilgisi</li>
                         <li>/film [film adı] - IMDb film bilgileri</li>
                         <li>/oyunöner [kategori] - Oyun önerisi al</li>
+                        <li>/görsel [açıklama] - AI ile görsel oluştur</li>
                         <li>YouTube video bildirimleri</li>
                         <li>Otomatik hoşgeldin/güle güle mesajları</li>
                     </ul>
                 </div>
                 
                 <div class="command-category animate-on-scroll stagger-animation" style="--stagger-delay: 8">
+                    <h3>🛡️ Moderasyon</h3>
+                    <ul class="command-list">
+                        <li>Otomatik küfür filtreleme</li>
+                        <li>Spam koruması ve mute sistemi</li>
+                        <li>5 uyarıda otomatik mute</li>
+                        <li>Akıllı mute ve uyarı sistemi</li>
+                        <li>Ses kanalı oda kontrolü</li>
+                    </ul>
+                </div>
+                
+                <div class="command-category animate-on-scroll stagger-animation" style="--stagger-delay: 9">
                     <h3>⚙️ Yönetim Komutları</h3>
                     <ul class="command-list">
                         <li>/paraver - Kullanıcıya para ver</li>
