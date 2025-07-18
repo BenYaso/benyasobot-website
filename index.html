@@ -142,11 +142,15 @@
             text-align: center;
             padding: 6rem 1rem 2rem;
             position: relative;
+            width: 100%;
         }
 
         .hero-content {
             max-width: 800px;
             animation: fadeInUp 1s ease-out;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
         }
 
         @keyframes fadeInUp {
@@ -170,6 +174,8 @@
             background-clip: text;
             line-height: 1.1;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            text-align: center;
+            width: 100%;
         }
 
         .hero-subtitle {
@@ -177,6 +183,8 @@
             margin-bottom: 1.5rem;
             color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
+            text-align: center;
+            width: 100%;
         }
 
         .hero-description {
@@ -186,6 +194,9 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            text-align: center;
+            width: 100%;
+            padding: 0 1rem;
         }
 
         .hero-buttons {
@@ -193,6 +204,8 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            width: 100%;
+            margin: 0 auto;
         }
 
         .cta-button {
@@ -230,7 +243,7 @@
         /* Status badge mobile */
         .status-badge {
             position: absolute;
-            top: 20%;
+            top: 15%;
             right: 1rem;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: var(--blur);
@@ -240,6 +253,7 @@
             font-size: 0.8rem;
             font-weight: 500;
             animation: float 3s ease-in-out infinite;
+            z-index: 10;
         }
 
         @keyframes float {
@@ -250,6 +264,66 @@
         .status-badge::before {
             content: '🟢';
             margin-right: 0.5rem;
+        }
+
+        /* Mobile specific fixes */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 0.5rem 2rem;
+                text-align: center;
+                overflow-x: hidden;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+                padding: 0 0.5rem;
+                margin: 0 auto;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+            }
+            
+            .hero-subtitle {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+            }
+            
+            .hero-description {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+                padding: 0 0.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                margin: 0 auto;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 280px;
+                margin: 0 auto;
+            }
+            
+            .status-badge {
+                position: relative;
+                margin: 0 auto 2rem;
+                display: block;
+                width: fit-content;
+                top: auto;
+                right: auto;
+            }
         }
 
         /* Simplified sections */
@@ -480,6 +554,63 @@
 
         /* Mobile optimizations */
         @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 0.5rem 2rem;
+                text-align: center;
+                overflow-x: hidden;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+                padding: 0 0.5rem;
+                margin: 0 auto;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+            }
+            
+            .hero-subtitle {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+            }
+            
+            .hero-description {
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+                padding: 0 0.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                margin: 0 auto;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 280px;
+                margin: 0 auto;
+            }
+            
+            .status-badge {
+                position: relative;
+                margin: 0 auto 2rem;
+                display: block;
+                width: fit-content;
+                top: auto;
+                right: auto;
+            }
+            
             .nav-toggle {
                 display: block;
             }
@@ -514,22 +645,6 @@
                 padding: 1rem;
                 border-radius: 10px;
                 background: rgba(255, 255, 255, 0.1);
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .cta-button {
-                width: 100%;
-                max-width: 280px;
-            }
-            
-            .status-badge {
-                position: static;
-                margin: 1rem auto 2rem;
-                display: inline-block;
             }
             
             .grid {
