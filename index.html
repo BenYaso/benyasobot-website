@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>BenYasoBOT - Özel Discord Sunucusu</title>
+    <title>BenYasoBOT - Özel Discord Sunucusu</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,6 +15,7 @@
             --glass-border: rgba(255, 255, 255, 0.2);
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.4);
+            --animation-speed: 1s;
         }
 
         * {
@@ -31,7 +32,7 @@
             line-height: 1.6;
         }
 
-        /* Advanced Animated Background */
+        /* Optimized Animated Background */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -49,32 +50,24 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                        radial-gradient(circle at 40% 40%, rgba(120, 219, 226, 0.3) 0%, transparent 50%);
-            animation: morphing 20s ease-in-out infinite;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%);
+            animation: morphing 60s ease-in-out infinite;
+            will-change: transform;
         }
 
         @keyframes morphing {
             0%, 100% {
                 transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
-            25% {
-                transform: scale(1.1) rotate(90deg);
                 opacity: 0.8;
             }
             50% {
-                transform: scale(0.9) rotate(180deg);
+                transform: scale(1.05) rotate(180deg);
                 opacity: 0.6;
-            }
-            75% {
-                transform: scale(1.05) rotate(270deg);
-                opacity: 0.9;
             }
         }
 
-        /* Floating Particles */
+        /* Optimized Floating Particles */
         .particles {
             position: fixed;
             top: 0;
@@ -87,11 +80,12 @@
 
         .particle {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.6);
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 50%;
-            animation: float-up 6s linear infinite;
+            animation: float-up 8s linear infinite;
+            will-change: transform;
         }
 
         @keyframes float-up {
@@ -122,7 +116,7 @@
             border-bottom: 1px solid var(--glass-border);
             z-index: 1000;
             padding: 1rem 0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
         }
 
         header.scrolled {
@@ -160,14 +154,12 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            animation: logoFloat 3s ease-in-out infinite;
+            animation: logoFloat 4s ease-in-out infinite;
         }
 
         @keyframes logoFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-5px) rotate(2deg); }
-            50% { transform: translateY(-10px) rotate(0deg); }
-            75% { transform: translateY(-5px) rotate(-2deg); }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
         }
 
         .nav-links {
@@ -181,7 +173,7 @@
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             position: relative;
             padding: 0.5rem 1rem;
             border-radius: 25px;
@@ -198,7 +190,7 @@
             border-radius: 25px;
             opacity: 0;
             transform: scale(0.8);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             z-index: -1;
         }
 
@@ -212,7 +204,7 @@
             transform: translateY(-2px);
         }
 
-        /* Hero Section with Advanced Animations */
+        /* Hero Section */
         .hero {
             height: 100vh;
             display: flex;
@@ -226,18 +218,18 @@
         .hero-content {
             max-width: 900px;
             padding: 0 2rem;
-            animation: heroEntrance 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            animation: heroEntrance 1s ease-out forwards;
             opacity: 0;
         }
 
         @keyframes heroEntrance {
             0% {
                 opacity: 0;
-                transform: translateY(60px) scale(0.9);
+                transform: translateY(40px);
             }
             100% {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
         }
 
@@ -245,18 +237,11 @@
             font-size: clamp(3rem, 8vw, 5rem);
             font-weight: 800;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 25%, #e0e7ff 50%, #c7d2fe 75%, #a5b4fc 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #a5b4fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            background-size: 200% 200%;
-            animation: gradientShift 4s ease-in-out infinite;
             line-height: 1.1;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
 
         .hero p {
@@ -285,30 +270,15 @@
             border-radius: 50px;
             font-weight: 600;
             font-size: 1.1rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
-        }
-
         .cta-button:hover {
-            transform: translateY(-4px) scale(1.02);
+            transform: translateY(-3px) scale(1.02);
             box-shadow: var(--shadow-hover);
         }
 
@@ -333,12 +303,12 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
             padding: 1rem 1.5rem;
-            animation: statusFloat 4s ease-in-out infinite;
+            animation: statusFloat 6s ease-in-out infinite;
         }
 
         @keyframes statusFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(1deg); }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         .status-badge::before {
@@ -395,7 +365,7 @@
             padding: 2.5rem;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             box-shadow: var(--shadow);
@@ -410,7 +380,7 @@
             height: 100%;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.3s ease;
         }
 
         .feature-card:hover::before {
@@ -418,7 +388,7 @@
         }
 
         .feature-card:hover {
-            transform: translateY(-12px) scale(1.02);
+            transform: translateY(-8px) scale(1.01);
             box-shadow: var(--shadow-hover);
             border-color: rgba(255, 255, 255, 0.3);
         }
@@ -426,13 +396,15 @@
         .feature-icon {
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
-            animation: iconFloat 3s ease-in-out infinite;
             display: inline-block;
         }
 
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(5deg); }
+        .feature-icon img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 8px;
+            filter: brightness(1.1);
         }
 
         .feature-card h3 {
@@ -469,7 +441,7 @@
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
@@ -483,7 +455,7 @@
             height: 100%;
             background: var(--accent-gradient);
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.3s ease;
         }
 
         .stat-card:hover::before {
@@ -491,7 +463,7 @@
         }
 
         .stat-card:hover {
-            transform: translateY(-8px) scale(1.05);
+            transform: translateY(-5px);
             box-shadow: var(--shadow-hover);
         }
 
@@ -533,29 +505,13 @@
             padding: 2.5rem;
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .command-category::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .command-category:hover::before {
-            opacity: 1;
-        }
-
         .command-category:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
             box-shadow: var(--shadow-hover);
             border-color: rgba(255, 255, 255, 0.3);
         }
@@ -600,7 +556,7 @@
 
         .command-list li:hover::before {
             color: #00f2fe;
-            transform: scale(1.2);
+            transform: scale(1.1);
         }
 
         /* Footer */
@@ -637,30 +593,14 @@
             color: #ffffff;
             text-decoration: none;
             font-size: 2.5rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             backdrop-filter: blur(20px);
             position: relative;
             overflow: hidden;
         }
 
-        .social-links a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--accent-gradient);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .social-links a:hover::before {
-            opacity: 0.2;
-        }
-
         .social-links a:hover {
-            transform: translateY(-8px) scale(1.15);
+            transform: translateY(-5px) scale(1.1);
             box-shadow: var(--shadow-hover);
             border-color: rgba(255, 255, 255, 0.4);
         }
@@ -692,8 +632,17 @@
             display: block;
         }
 
-        /* Responsive Design */
+        /* Mobile Optimizations */
         @media (max-width: 768px) {
+            .particles { 
+                display: none; 
+            }
+            
+            .animated-bg::before { 
+                animation: none;
+                opacity: 0.3;
+            }
+            
             .nav-links {
                 display: none;
             }
@@ -726,7 +675,7 @@
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.6s ease;
         }
 
         .animate-on-scroll.visible {
@@ -739,19 +688,14 @@
             animation-delay: calc(var(--stagger-delay) * 0.1s);
         }
 
-        /* Enhanced Loading States */
-        .loading-shimmer {
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            background-size: 200% 100%;
-            animation: shimmer 2s infinite;
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        /* Exclusive Access Badge - REMOVED */
     </style>
 </head>
 <body>
@@ -802,7 +746,7 @@
                 
                 <div class="feature-card animate-on-scroll stagger-animation" style="--stagger-delay: 3">
                     <div class="feature-icon">
-                         <img src="https://i.postimg.cc/kgWr9BGY/money-1.png" alt="Ekonomi Sistemi">
+                         <img src="https://i.postimg.cc/kgWr9BGY/money-1.png" alt="Ekonomi Sistemi" loading="lazy">
                     </div>
                     <h3>Gelişmiş Ekonomi Sistemi</h3>
                     <p>YASO Coin para birimi, günlük ödüller, zombi avlama, maden kazma, banka yatırım sistemi, market alışverişi ve jeton alım-satımı. Gerçek ekonomi simülasyonu ile kazanç stratejileri.</p>
@@ -1040,29 +984,31 @@
     </footer>
 
     <script>
-        // Advanced Particle System
+        // Optimized Particle System
         class ParticleSystem {
             constructor() {
                 this.particles = [];
                 this.container = document.getElementById('particles');
+                this.maxParticles = window.innerWidth < 768 ? 0 : 15; // Mobilde parçacık yok
                 this.createParticles();
                 this.animate();
             }
             
             createParticles() {
-                for (let i = 0; i < 50; i++) {
+                for (let i = 0; i < this.maxParticles; i++) {
                     setTimeout(() => {
                         this.addParticle();
-                    }, i * 100);
+                    }, i * 200);
                 }
             }
             
             addParticle() {
+                if (this.particles.length >= this.maxParticles) return;
+                
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                particle.style.animationDelay = Math.random() * 2 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
                 
                 this.container.appendChild(particle);
                 this.particles.push(particle);
@@ -1072,24 +1018,24 @@
                         particle.parentNode.removeChild(particle);
                     }
                     this.particles = this.particles.filter(p => p !== particle);
-                }, 8000);
+                }, 10000);
             }
             
             animate() {
                 setInterval(() => {
-                    if (this.particles.length < 30) {
+                    if (this.particles.length < this.maxParticles) {
                         this.addParticle();
                     }
-                }, 300);
+                }, 800);
             }
         }
 
-        // Advanced Scroll Animations
+        // Optimized Scroll Animations
         class ScrollAnimations {
             constructor() {
                 this.observerOptions = {
                     threshold: 0.1,
-                    rootMargin: '0px 0px -100px 0px'
+                    rootMargin: '0px 0px -50px 0px'
                 };
                 this.init();
             }
@@ -1109,7 +1055,7 @@
             }
         }
 
-        // Enhanced Number Counter
+        // Optimized Number Counter
         class NumberCounter {
             constructor() {
                 this.counters = document.querySelectorAll('.stat-number[data-target]');
@@ -1133,21 +1079,15 @@
             
             animateCounter(counter) {
                 const target = parseInt(counter.getAttribute('data-target'));
-                const duration = 2000;
+                const duration = 1500;
                 const startTime = performance.now();
                 
                 const animate = (currentTime) => {
                     const elapsed = currentTime - startTime;
                     const progress = Math.min(elapsed / duration, 1);
                     
-                    const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-                    const current = Math.floor(target * easeOutQuart);
-                    
-                    if (target >= 1000) {
-                        counter.textContent = current.toLocaleString();
-                    } else {
-                        counter.textContent = current;
-                    }
+                    const current = Math.floor(target * progress);
+                    counter.textContent = target >= 1000 ? current.toLocaleString() : current;
                     
                     if (progress < 1) {
                         requestAnimationFrame(animate);
@@ -1218,60 +1158,23 @@
             }
         }
 
-        // Performance Optimization
-        class PerformanceOptimizer {
-            constructor() {
-                this.init();
-            }
-            
-            init() {
-                // Lazy load images
-                if ('IntersectionObserver' in window) {
-                    const imageObserver = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                const img = entry.target;
-                                img.src = img.dataset.src;
-                                img.classList.remove('loading');
-                                imageObserver.unobserve(img);
-                            }
-                        });
-                    });
-
-                    document.querySelectorAll('img[data-src]').forEach(img => {
-                        imageObserver.observe(img);
-                    });
-                }
-                
-                // Reduce motion for accessibility
-                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-                if (prefersReducedMotion.matches) {
-                    document.documentElement.style.setProperty('--animation-duration', '0s');
-                }
-            }
-        }
-
         // Initialize all systems
         document.addEventListener('DOMContentLoaded', () => {
-            new ParticleSystem();
             new ScrollAnimations();
             new NumberCounter();
             new HeaderController();
             new SmoothScroll();
-            new PerformanceOptimizer();
+            
+            // Sadece desktop'ta parçacık sistemi
+            if (window.innerWidth >= 768) {
+                new ParticleSystem();
+            }
         });
 
-        // Advanced Error Handling
+        // Performance optimizations
         window.addEventListener('error', (e) => {
             console.error('Site error:', e.error);
         });
-
-        // Service Worker for offline functionality (optional)
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').catch(err => {
-                console.log('Service worker registration failed:', err);
-            });
-        }
     </script>
 </body>
 </html>
