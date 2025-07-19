@@ -87,6 +87,8 @@
             font-weight: 900;
             color: white;
             text-decoration: none;
+            display: flex;
+            align-items: center;
         }
 
         .nav-links {
@@ -317,6 +319,11 @@
         .chat-messages {
             min-height: 200px;
             margin-bottom: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
         }
 
         .chat-message {
@@ -934,6 +941,69 @@
             </div>
         </section>
     </div>
+
+    <!-- SOHBET TAB - EKSİK OLAN KISIM! -->
+    <div id="sohbet" class="tab-content">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Canlı Sohbet</h1>
+                <p class="hero-subtitle">Gerçek Zamanlı Sohbet Sistemi</p>
+                <p class="hero-description">Toplulukla sohbet edin! Mesajlarınız anında tüm ziyaretçilere görünür.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">💬 Canlı Sohbet</h2>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chat-messages-main">
+                        <div class="chat-message">
+                            <strong style="color: #4facfe;">BenYaso:</strong> Sohbet sistemine hoş geldiniz! 🎮
+                            <small style="float: right; color: rgba(255,255,255,0.5);">Şimdi</small>
+                        </div>
+                        <div class="chat-message">
+                            <strong style="color: #00f2fe;">Sistem:</strong> Bu gerçek zamanlı bir sohbet sistemi.
+                            <small style="float: right; color: rgba(255,255,255,0.5);">Şimdi</small>
+                        </div>
+                        <div class="chat-message">
+                            <strong style="color: #4facfe;">BenYaso:</strong> İlk mesajı siz atın! 🎥
+                            <small style="float: right; color: rgba(255,255,255,0.5);">Şimdi</small>
+                        </div>
+                    </div>
+                    <div class="chat-input-group">
+                        <input type="text" class="chat-input" id="chat-input-main" placeholder="Mesajınızı yazın...">
+                        <button class="chat-send" onclick="sendMessage()">Gönder</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 2rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 10px; text-align: center;">
+                    <h3 style="color: #4facfe; margin-bottom: 1rem;">🔥 Sohbet Kuralları</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; text-align: left;">
+                        <div>
+                            <strong style="color: #00f2fe;">✅ Yapalım:</strong>
+                            <ul style="list-style: none; padding-left: 1rem; margin-top: 0.5rem;">
+                                <li>• Saygılı olun</li>
+                                <li>• Eğlenceli sohbet</li>
+                                <li>• Minecraft konuşun</li>
+                                <li>• Sorular sorun</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <strong style="color: #ff6b6b;">❌ Yapmayalım:</strong>
+                            <ul style="list-style: none; padding-left: 1rem; margin-top: 0.5rem;">
+                                <li>• Spam mesaj</li>
+                                <li>• Küfür/hakaret</li>
+                                <li>• Reklam</li>
+                                <li>• Troll davranış</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Discord Bot Tab -->
     <div id="discord" class="tab-content">
         <section class="hero">
             <div class="hero-content">
@@ -1174,11 +1244,11 @@
     </footer>
 
     <script type="module">
-        // Firebase imports
+        // 🔥 GERÇEK ZAMANLI FİREBASE CHAT SİSTEMİ 🔥
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getDatabase, ref, push, onValue, query, orderByChild, limitToLast } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import { getDatabase, ref, push, onValue, query, orderByChild, limitToLast, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
-        // Firebase config
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyC_IgO_xCzkeNGkaoCh59vdIWBQgu51Fmk",
             authDomain: "benyaso-2d53b.firebaseapp.com",
@@ -1186,142 +1256,216 @@
             projectId: "benyaso-2d53b",
             storageBucket: "benyaso-2d53b.firebasestorage.app",
             messagingSenderId: "518556386840",
-            appId: "1:518556386840:web:abaa02ae4b42bd0eb5256d"
+            appId: "1:518556386840:web:abaa02ae4b42bd0eb5256d",
+            measurementId: "G-E3C6MDGXPN"
         };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        console.log("Firebase başlatıldı");
+        console.log("🔥 Firebase başlatıldı - Gerçek zamanlı chat aktif!");
 
-        // Mesaj gönderme fonksiyonu
+        // Kullanıcı adı oluşturma
+        function generateUserName() {
+            const adjectives = ['Hızlı', 'Güçlü', 'Akıllı', 'Cesur', 'Eğlenceli', 'Pro', 'Epic', 'Cool', 'Süper', 'Mega'];
+            const nouns = ['Oyuncu', 'Gamer', 'Builder', 'Miner', 'Explorer', 'Warrior', 'Master', 'Hero', 'Legend', 'Champion'];
+            const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+            const noun = nouns[Math.floor(Math.random() * nouns.length)];
+            const num = Math.floor(Math.random() * 999) + 1;
+            return `${adj}${noun}${num}`;
+        }
+
+        // Kullanıcı adını sessionStorage'da sakla
+        let currentUser = sessionStorage.getItem('chatUsername');
+        if (!currentUser) {
+            currentUser = generateUserName();
+            sessionStorage.setItem('chatUsername', currentUser);
+        }
+
+        // 🚀 GERÇEK ZAMANLI MESAJ GÖNDERME
         window.sendMessage = function() {
             const input = document.getElementById('chat-input-main');
             if (!input) {
-                console.log("Input bulunamadı");
+                console.log("❌ Input bulunamadı");
                 return;
             }
 
             const text = input.value.trim();
             if (!text) return;
 
-            const userNames = ['Ziyaretçi', 'İzleyici', 'Fan', 'Oyuncu', 'Takipçi'];
-            const userName = userNames[Math.floor(Math.random() * userNames.length)] + Math.floor(Math.random() * 1000);
-
-            const message = {
-                text: text,
-                user: userName,
-                timestamp: Date.now()
-            };
-
-            push(ref(db, 'messages'), message);
-            input.value = '';
-            console.log("Mesaj gönderildi:", text);
-        };
-
-        // Mesajları dinleme
-        function startChat() {
-            const messagesContainer = document.getElementById('chat-messages-main');
-            if (!messagesContainer) {
-                console.log("Mesaj container bulunamadı");
-                // Tekrar dene
-                setTimeout(() => {
-                    const container2 = document.getElementById('chat-messages-main');
-                    if (container2) {
-                        console.log("Container ikinci denemede bulundu");
-                        startChatNow(container2);
-                    }
-                }, 500);
+            // Spam koruması
+            if (text.length > 200) {
+                alert('Mesaj çok uzun! Maksimum 200 karakter.');
                 return;
             }
 
-            startChatNow(messagesContainer);
-        }
+            console.log("📤 Mesaj gönderiliyor:", text);
 
-        function startChatNow(messagesContainer) {
-            console.log("startChatNow çağrıldı, container:", messagesContainer);
-            
-            const messagesRef = ref(db, 'messages');
+            const message = {
+                text: text,
+                user: currentUser,
+                timestamp: serverTimestamp(),
+                color: `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)` // Rastgele renk
+            };
+
+            // Firebase'e mesaj gönder
+            push(ref(db, 'chatMessages'), message)
+                .then(() => {
+                    console.log("✅ Mesaj başarıyla gönderildi!");
+                    input.value = '';
+                })
+                .catch((error) => {
+                    console.error("❌ Mesaj gönderme hatası:", error);
+                    alert('Mesaj gönderilemedi. Tekrar deneyin.');
+                });
+        };
+
+        // 🔥 GERÇEK ZAMANLI MESAJ DİNLEME
+        function startRealTimeChat() {
+            const messagesContainer = document.getElementById('chat-messages-main');
+            if (!messagesContainer) {
+                console.log("❌ Mesaj container bulunamadı, 1 saniye sonra tekrar denenecek...");
+                setTimeout(startRealTimeChat, 1000);
+                return;
+            }
+
+            console.log("🎯 Gerçek zamanlı chat başlatılıyor...");
+
+            // Son 50 mesajı al ve gerçek zamanlı dinle
+            const messagesRef = ref(db, 'chatMessages');
             const messagesQuery = query(messagesRef, orderByChild('timestamp'), limitToLast(50));
 
             onValue(messagesQuery, (snapshot) => {
-                console.log("Firebase'den mesajlar alındı");
+                console.log("📨 Firebase'den yeni mesajlar alındı");
+                
+                // Container'ı temizle
                 messagesContainer.innerHTML = '';
 
                 if (snapshot.exists()) {
                     const messages = [];
+                    
+                    // Mesajları diziye dönüştür
                     snapshot.forEach((child) => {
-                        messages.push(child.val());
+                        const msg = child.val();
+                        if (msg.text && msg.user) { // Geçerli mesajları filtrele
+                            messages.push(msg);
+                        }
                     });
 
-                    messages.sort((a, b) => a.timestamp - b.timestamp);
-                    console.log(`${messages.length} mesaj yüklendi`);
+                    // Timestamp'e göre sırala
+                    messages.sort((a, b) => {
+                        const timeA = a.timestamp || 0;
+                        const timeB = b.timestamp || 0;
+                        return timeA - timeB;
+                    });
 
+                    console.log(`📊 ${messages.length} mesaj yüklendi`);
+
+                    // Mesajları göster
                     messages.forEach(msg => {
                         const div = document.createElement('div');
                         div.className = 'chat-message';
+                        
+                        const userColor = msg.color || (msg.user === 'BenYaso' ? '#4facfe' : 
+                                                      msg.user === 'Sistem' ? '#00f2fe' : '#a5b4fc');
+                        
+                        const timeStr = msg.timestamp ? 
+                            new Date(msg.timestamp).toLocaleTimeString('tr-TR', {hour: '2-digit', minute: '2-digit'}) : 
+                            'Şimdi';
+
                         div.innerHTML = `
-                            <strong style="color: #4facfe;">${msg.user}:</strong> ${msg.text}
+                            <strong style="color: ${userColor};">${msg.user}:</strong> ${msg.text}
                             <small style="float: right; color: rgba(255,255,255,0.5);">
-                                ${new Date(msg.timestamp).toLocaleTimeString('tr-TR', {hour: '2-digit', minute: '2-digit'})}
+                                ${timeStr}
                             </small>
                         `;
+                        
                         messagesContainer.appendChild(div);
                     });
                 } else {
-                    console.log("Henüz mesaj yok, başlangıç mesajları ekleniyor");
-                    messagesContainer.innerHTML = `
-                        <div class="chat-message">
-                            <strong style="color: #4facfe;">BenYaso:</strong> Sohbet sistemine hoş geldiniz! 🎮
-                        </div>
-                        <div class="chat-message">
-                            <strong style="color: #00f2fe;">Sistem:</strong> Bu gerçek zamanlı bir sohbet sistemi.
-                        </div>
-                        <div class="chat-message">
-                            <strong style="color: #4facfe;">BenYaso:</strong> İlk mesajı siz atın! 🎥
-                        </div>
-                    `;
+                    console.log("📝 Henüz mesaj yok, başlangıç mesajları ekleniyor...");
+                    
+                    // İlk mesajları ekle
+                    const welcomeMessages = [
+                        { text: "Gerçek zamanlı sohbet sistemine hoş geldiniz! 🔥", user: "BenYaso" },
+                        { text: "Mesajlarınız anında tüm kullanıcılara görünür!", user: "Sistem" },
+                        { text: "İlk mesajı siz atın! 🎮", user: "BenYaso" }
+                    ];
+
+                    welcomeMessages.forEach(msg => {
+                        push(ref(db, 'chatMessages'), {
+                            ...msg,
+                            timestamp: serverTimestamp(),
+                            color: msg.user === 'BenYaso' ? '#4facfe' : '#00f2fe'
+                        });
+                    });
                 }
 
+                // En alt mesaja scroll
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                console.log("Mesajlar görüntülendi ve scroll yapıldı");
+                console.log("✅ Mesajlar görüntülendi ve scroll yapıldı");
+            }, (error) => {
+                console.error("❌ Firebase dinleme hatası:", error);
             });
         }
 
-        // Enter tuşu desteği ve Tab click handlers
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("DOM yüklendi, event listener'lar ekleniyor...");
+        // 💫 CANLI İSTATİSTİKLER
+        function startLiveStats() {
+            const onlineUsersRef = ref(db, 'onlineUsers');
             
-            // Tab linklerine click event ekle
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const tabName = this.getAttribute('data-tab');
-                    console.log(`Tab tıklandı: ${tabName}`);
-                    showTab(tabName, this);
-                });
-            });
-
-            // Enter tuşu desteği
-            setTimeout(() => {
-                const input = document.getElementById('chat-input-main');
-                if (input) {
-                    input.addEventListener('keypress', function(e) {
-                        if (e.key === 'Enter') {
-                            sendMessage();
-                        }
-                    });
-                    console.log("Chat input Enter desteği eklendi");
+            onValue(onlineUsersRef, (snapshot) => {
+                const count = snapshot.exists() ? Object.keys(snapshot.val()).length : 1;
+                
+                // Online kullanıcı sayısını güncelle
+                const onlineElement = document.querySelector('.hero-description');
+                if (onlineElement && document.getElementById('sohbet').classList.contains('active')) {
+                    onlineElement.innerHTML = `Şu anda <strong style="color: #4facfe;">${count}</strong> kişi sohbet ediyor! 🔥`;
                 }
-            }, 1000);
+            });
+        }
 
-            // İlk tab'ı göster
-            console.log("İlk tab (YouTube) gösteriliyor");
-            showTab('youtube', document.querySelector('a[data-tab="youtube"]'));
+        // Kullanıcıyı online olarak işaretle
+        function markUserOnline() {
+            const userRef = ref(db, `onlineUsers/${currentUser}`);
+            push(userRef, {
+                timestamp: serverTimestamp(),
+                user: currentUser
+            });
+        }
+
+        // 🎯 BAŞLATMA FONKSİYONU
+        function initializeChat() {
+            console.log("🚀 Chat sistemi başlatılıyor...");
+            startRealTimeChat();
+            startLiveStats();
+            markUserOnline();
+            
+            // Her 30 saniyede bir online durumu güncelle
+            setInterval(markUserOnline, 30000);
+        }
+
+        // Enter tuşu desteği
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('chat-input-main');
+            if (input) {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                });
+                console.log("⌨️ Enter tuşu desteği eklendi");
+            }
+
+            // Chat'i başlat
+            initializeChat();
         });
 
         // Global erişim için
-        window.sendMainChatMessage = window.sendMessage;
+        window.sendRealTimeMessage = window.sendMessage;
+        window.currentChatUser = currentUser;
+        
+        console.log(`👤 Kullanıcı adınız: ${currentUser}`);
+
     </script>
 
     <script>
@@ -1482,22 +1626,11 @@
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
                 themeToggle.textContent = '🌙';
-                localStorage.setItem('theme', 'light');
             } else {
                 body.setAttribute('data-theme', 'dark');
                 themeToggle.textContent = '☀️';
-                localStorage.setItem('theme', 'dark');
             }
         }
-
-        // Load saved theme
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
-                document.querySelector('.theme-toggle').textContent = '☀️';
-            }
-        });
 
         // Scroll Progress Bar
         window.addEventListener('scroll', () => {
@@ -1509,35 +1642,17 @@
             document.querySelector('.scroll-progress').style.width = progress + '%';
         });
 
-        // Live Chat System (eski demo sistemi kaldırıldı)
-        // Artık Firebase ile gerçek zamanlı chat var
-
-        // Enter key for chat (güncellenmiş)
-        document.getElementById('chat-input')?.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendFirebaseMessage();
+        // Enter key for chat
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('chat-input-main');
+            if (input) {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                });
             }
         });
-
-        // YouTube Subscriber Counter Animation
-        function animateCounter() {
-            const counter = document.getElementById('subscriber-count');
-            const target = 623;
-            let current = 600;
-            
-            const increment = () => {
-                if (current < target) {
-                    current += Math.ceil(Math.random() * 3);
-                    counter.textContent = current + '+';
-                    setTimeout(increment, 100);
-                }
-            };
-            
-            setTimeout(increment, 2000);
-        }
-
-        // Discord Members Counter (eski kodu sil)
-        // updateDiscordMembers fonksiyonu artık updateRealDiscordStats ile değiştirildi
 
         // Easter Egg
         let clickCount = 0;
@@ -1562,10 +1677,8 @@
             }, 3000);
         }
 
-        // Tab System - Basit ve güvenli
+        // Tab System
         function showTab(tabName, clickedElement) {
-            console.log(`Tab değiştiriliyor: ${tabName}`);
-            
             // Tüm tab'ları gizle
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -1596,69 +1709,28 @@
             // Üste scroll
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Sohbet tab'ı özel kontrolü - ZORLA DEBUG
+            // Sohbet tab'ı seçildiyse chat'i güncelle
             if (tabName === 'sohbet') {
-                console.log("🔥 SOHBET TAB'I SEÇİLDİ!");
-                console.log("DOM elementleri kontrol ediliyor...");
-                
-                // 1 saniye bekle, sonra debug başlat
-                setTimeout(() => {
-                    console.log("⏰ 1 saniye sonra debug başlıyor...");
-                    initializeChatSystem();
-                }, 1000);
-            }
-        }
-
-        // Chat sistemini başlat - MANUAL DEBUG
-        function initializeChatSystem() {
-            console.log("=== CHAT DEBUG BAŞLADI ===");
-            
-            // Mevcut tüm elementleri listele
-            console.log("Sohbet tab'ı var mı:", document.getElementById('sohbet'));
-            console.log("chat-messages-main var mı:", document.getElementById('chat-messages-main'));
-            
-            // Tüm chat-messages class'ı olan elementleri bul
-            const allChatMessages = document.querySelectorAll('.chat-messages');
-            console.log("Tüm chat-messages elementleri:", allChatMessages);
-            
-            // Sohbet tab'ındaki tüm elementleri listele
-            const sohbetTab = document.getElementById('sohbet');
-            if (sohbetTab) {
-                console.log("Sohbet tab içeriği:", sohbetTab.innerHTML.substring(0, 200));
-                const chatDivs = sohbetTab.querySelectorAll('div');
-                console.log("Sohbet tab'ındaki div sayısı:", chatDivs.length);
-            }
-            
-            // Manuel container arama
-            let container = document.getElementById('chat-messages-main');
-            
-            // Eğer bulamazsa alternatif ara
-            if (!container) {
-                console.log("ID ile bulunamadı, class ile arıyorum...");
-                const chatContainers = document.querySelectorAll('.chat-messages');
-                for (let i = 0; i < chatContainers.length; i++) {
-                    console.log(`Chat container ${i}:`, chatContainers[i]);
-                    if (chatContainers[i].id === 'chat-messages-main') {
-                        container = chatContainers[i];
-                        console.log("Container bulundu!");
-                        break;
-                    }
+                // Kullanıcıyı online olarak işaretle
+                if (window.markUserOnline) {
+                    window.markUserOnline();
                 }
             }
-            
-            if (!container) {
-                console.log("KESİNLİKLE BULUNAMADI! 1 saniye sonra tekrar deniyorum...");
-                setTimeout(initializeChatSystem, 1000);
-                return;
-            }
-            
-            console.log("=== CONTAINER BULUNDU! ===", container);
-            startChatNow(container);
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            showTab('youtube');
+            // Tab event listeners
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabName = this.getAttribute('data-tab');
+                    showTab(tabName, this);
+                });
+            });
+
+            // İlk tab'ı göster
+            showTab('youtube', document.querySelector('a[data-tab="youtube"]'));
             
             // İlk veri yüklemesi
             updateYouTubeStats();
@@ -1675,12 +1747,6 @@
         document.getElementById('nav-toggle').addEventListener('click', function() {
             const navLinks = document.getElementById('nav-links');
             navLinks.classList.toggle('active');
-        });
-
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                document.getElementById('nav-links').classList.remove('active');
-            });
         });
 
         // Scroll to section function
@@ -1705,6 +1771,8 @@
                 header.style.background = 'rgba(0, 0, 0, 0.2)';
             }
         });
+
+        // Auto-generate random chat messages for demo - KALDIRILDI (Artık Firebase kullanıyoruz)
     </script>
 </body>
 </html>
