@@ -765,6 +765,7 @@
             <button class="nav-toggle" id="nav-toggle">☰</button>
             <ul class="nav-links" id="nav-links">
                 <li><a href="#" onclick="showTab('youtube', this)" class="active">YouTube</a></li>
+                <li><a href="#" onclick="showTab('canli-veriler', this)">Canlı Veriler</a></li>
                 <li><a href="#" onclick="showTab('discord', this)">Discord Bot</a></li>
                 <li><a href="#" onclick="showTab('minecraft', this)">Minecraft</a></li>
                 <li><a href="#" onclick="showTab('news', this)">Haberler</a></li>
@@ -787,46 +788,6 @@
                     <a href="#" class="cta-button secondary" onclick="scrollToSection('about')">
                         <span>👤</span> Hakkımda
                     </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Widgets Section -->
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">Canlı Veriler</h2>
-                <div class="widgets-section">
-                    <div class="widget">
-                        <h3>📺 YouTube Abone Sayısı</h3>
-                        <div class="subscriber-count" id="subscriber-count">600+</div>
-                        <p>Gerçek zamanlı abone sayısı</p>
-                    </div>
-                    
-                    <div class="widget discord-widget">
-                        <h3>💬 Discord Sunucusu</h3>
-                        <div style="font-size: 1.5rem; margin: 1rem 0;">
-                            <span id="discord-members">42</span> Üye Online
-                        </div>
-                        <a href="#" style="color: white; text-decoration: underline;">Sunucuya Katıl</a>
-                    </div>
-                    
-                    <div class="widget">
-                        <h3>💬 Demo Sohbet</h3>
-                        <div class="chat-container">
-                            <div class="chat-messages" id="chat-messages">
-                                <div class="chat-message">
-                                    <strong>Ziyaretçi:</strong> Harika site! 🎮
-                                </div>
-                                <div class="chat-message">
-                                    <strong>Fan:</strong> Yeni video ne zaman? 🤔
-                                </div>
-                            </div>
-                            <div class="chat-input-group">
-                                <input type="text" class="chat-input" id="chat-input" placeholder="Mesajınızı yazın..." maxlength="100">
-                                <button class="chat-send" onclick="sendMessage()">Gönder</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -936,7 +897,60 @@
         </section>
     </div>
     
-    <!-- Discord Bot Tab -->
+    <!-- Canlı Veriler Tab -->
+    <div id="canli-veriler" class="tab-content">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Canlı Veriler</h1>
+                <p class="hero-subtitle">Gerçek Zamanlı İstatistikler</p>
+                <p class="hero-description">YouTube, Discord ve site istatistikleri canlı olarak güncelleniyor!</p>
+            </div>
+        </section>
+
+        <!-- Widgets Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Gerçek Zamanlı Veriler</h2>
+                <div class="widgets-section">
+                    <div class="widget">
+                        <h3>📺 YouTube Abone Sayısı</h3>
+                        <div class="subscriber-count" id="subscriber-count">622</div>
+                        <p>Gerçek zamanlı abone sayısı</p>
+                        <small style="color: rgba(255,255,255,0.6);">Her dakika güncellenir</small>
+                    </div>
+                    
+                    <div class="widget discord-widget">
+                        <h3>💬 Discord Sunucusu</h3>
+                        <div style="font-size: 1.5rem; margin: 1rem 0;">
+                            <span id="discord-members">Yükleniyor...</span> Üye Online
+                        </div>
+                        <div style="margin: 1rem 0;">
+                            <iframe src="https://discord.com/widget?id=1385317817888411729&theme=dark" width="100%" height="300" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" style="border-radius: 10px; max-width: 100%;"></iframe>
+                        </div>
+                        <small style="color: rgba(255,255,255,0.6); display: block; margin-top: 0.5rem;">Gerçek zamanlı Discord widget</small>
+                    </div>
+                    
+                    <div class="widget">
+                        <h3>💬 Demo Sohbet</h3>
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="chat-message">
+                                    <strong>Ziyaretçi:</strong> Harika site! 🎮
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Fan:</strong> Yeni video ne zaman? 🤔
+                                </div>
+                            </div>
+                            <div class="chat-input-group">
+                                <input type="text" class="chat-input" id="chat-input" placeholder="Mesajınızı yazın..." maxlength="100">
+                                <button class="chat-send" onclick="sendMessage()">Gönder</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
     <div id="discord" class="tab-content">
         <section class="hero">
             <div class="hero-content">
