@@ -41,10 +41,19 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
             font-size: 1.5rem;
             font-weight: 900;
             color: white;
             text-decoration: none;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+            margin-right: 0.5rem;
+            border-radius: 50%;
         }
 
         .nav-links {
@@ -61,6 +70,7 @@
             border-radius: 20px;
             transition: all 0.3s ease;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         .nav-links a:hover,
@@ -76,6 +86,7 @@
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
+            z-index: 1001;
         }
 
         /* Tab Content */
@@ -99,26 +110,29 @@
 
         .hero-content {
             max-width: 800px;
+            width: 100%;
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(2.5rem, 6vw, 5rem);
             font-weight: 900;
             margin-bottom: 1rem;
             background: linear-gradient(135deg, #ffffff, #a5b4fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            word-break: break-word;
+            hyphens: auto;
         }
 
         .hero-subtitle {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             margin-bottom: 1rem;
             color: rgba(255, 255, 255, 0.9);
         }
 
         .hero-description {
-            font-size: 1.1rem;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
             margin-bottom: 2rem;
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
@@ -143,6 +157,8 @@
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            min-width: 150px;
+            justify-content: center;
         }
 
         .cta-button:hover {
@@ -169,7 +185,7 @@
 
         .section-title {
             text-align: center;
-            font-size: 3rem;
+            font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 800;
             margin-bottom: 3rem;
             color: white;
@@ -178,7 +194,7 @@
         /* Grid */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
@@ -210,7 +226,7 @@
         }
 
         .card h3 {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             font-weight: 700;
             margin-bottom: 1rem;
             color: white;
@@ -219,12 +235,13 @@
         .card p {
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
 
         /* Stats */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
@@ -233,7 +250,7 @@
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 2rem 1rem;
             text-align: center;
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
@@ -246,14 +263,14 @@
         }
 
         .stat-number {
-            font-size: 3rem;
+            font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 900;
             color: white;
             margin-bottom: 0.5rem;
         }
 
         .stat-label {
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
             color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
         }
@@ -261,7 +278,7 @@
         /* Commands */
         .commands-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
         }
@@ -282,7 +299,7 @@
         }
 
         .command-category h3 {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             font-weight: 700;
             margin-bottom: 1.5rem;
             color: white;
@@ -297,6 +314,8 @@
             color: rgba(255, 255, 255, 0.8);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             font-family: 'Courier New', monospace;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            word-break: break-all;
         }
 
         .command-list li::before {
@@ -343,15 +362,17 @@
         }
 
         .video-card h3 {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             font-weight: 600;
             color: white;
             margin-bottom: 0.5rem;
+            line-height: 1.3;
         }
 
         .video-card p {
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.5;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
 
         /* Coming Soon */
@@ -390,6 +411,7 @@
             justify-content: center;
             gap: 2rem;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
         .social-links a {
@@ -412,30 +434,40 @@
             transform: translateY(-2px);
         }
 
-        /* Mobile */
+        footer p {
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Mobile Optimizations */
         @media (max-width: 768px) {
             .nav-toggle {
                 display: block;
+                position: relative;
             }
 
             .nav-links {
                 position: fixed;
-                top: 100%;
+                top: 0;
                 left: 0;
                 width: 100%;
+                height: 100vh;
                 background: rgba(0, 0, 0, 0.95);
                 backdrop-filter: blur(20px);
                 flex-direction: column;
+                justify-content: center;
+                align-items: center;
                 padding: 2rem;
-                gap: 1rem;
-                transform: translateY(-100%);
+                gap: 2rem;
+                transform: translateX(-100%);
                 transition: transform 0.3s ease;
                 opacity: 0;
                 visibility: hidden;
             }
 
             .nav-links.active {
-                transform: translateY(0);
+                transform: translateX(0);
                 opacity: 1;
                 visibility: visible;
             }
@@ -443,48 +475,125 @@
             .nav-links a {
                 display: block;
                 text-align: center;
-                padding: 1rem;
+                padding: 1rem 2rem;
                 border-radius: 10px;
                 background: rgba(255, 255, 255, 0.1);
+                font-size: 1.2rem;
+                width: 200px;
+            }
+
+            nav {
+                padding: 0 1rem;
             }
 
             .hero {
                 padding: 8rem 1rem 4rem;
+                min-height: 90vh;
+            }
+
+            .hero h1 {
+                word-break: break-word;
+                overflow-wrap: break-word;
+                hyphens: auto;
             }
 
             .section {
                 padding: 3rem 1rem;
             }
 
-            .section-title {
-                font-size: 2rem;
-            }
-
             .grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
 
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
             }
 
             .commands-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
 
             .video-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
 
             .hero-buttons {
                 flex-direction: column;
                 align-items: center;
+                gap: 1rem;
             }
 
             .cta-button {
                 width: 100%;
                 max-width: 280px;
+                padding: 1rem 1.5rem;
             }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .command-category {
+                padding: 1.5rem;
+            }
+
+            .video-card {
+                padding: 1rem;
+            }
+
+            .video-thumbnail {
+                height: 180px;
+            }
+
+            .social-links {
+                gap: 1rem;
+            }
+
+            .social-links a {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 7rem 0.5rem 3rem;
+            }
+
+            .section {
+                padding: 2rem 0.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .nav-links a {
+                width: 180px;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Performance optimizations */
+        .video-thumbnail iframe {
+            loading: lazy;
+        }
+
+        /* Better text rendering */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
     </style>
 </head>
@@ -492,7 +601,7 @@
     <header>
         <nav>
             <a href="#" class="logo">
-                <img src="https://i.postimg.cc/V6TjLsH5/avatar-Head2.png" alt="BenYaso" style="width: 32px; height: 32px; margin-right: 0.5rem;">
+                <img src="https://i.postimg.cc/V6TjLsH5/avatar-Head2.png" alt="BenYaso">
                 BenYaso
             </a>
             <button class="nav-toggle" id="nav-toggle">☰</button>
@@ -504,8 +613,8 @@
         </nav>
     </header>
 
-    <!-- yotuube Tab -->
-    <div id="youtube" class="tab-content">
+    <!-- YouTube Tab -->
+    <div id="youtube" class="tab-content active">
         <section class="hero">
             <div class="hero-content">
                 <h1>BenYasoMinecraft</h1>
@@ -541,150 +650,7 @@
                     <div class="card">
                         <div class="card-icon">📸</div>
                         <h3>YouTube'a Gönül Verdik</h3>
-                        <p>Kendi dünyamı insanlara göstermek hoşuma gidiyor. Yaptığım yapılar, yaşadığım olaylar, kurguladığım sahneler… Her videosu farklı, her anı eğlenceli. Amacım sıradan olmak değil, fark yaratmak. </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">Sizin İçin</h2>
-                <div class="video-grid">
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/EeoXOVbdvvI?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>BAŞLANGIÇ EVİ ve ELMASLAR! 💎</h3>
-                        <p>Yeni survival dünyamda ilk adımları atıyoruz!</p>
-                    </div>
-                    
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/cv_MR4wkJew?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>SERVET III! 💎 Köylülerle Ticarete Başladık</h3>
-                        <p>Köylülerle ilk ticaretimizi yapıyoruz ve SERVET III büyüsünü kapıyoruz! 💎</p>
-                    </div>
-                    
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/xSuWk3eVgBg?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>MUTLU GHAST Buldum 👻</h3>
-                        <p>Oyunun yeni güncellemesinde eklenen en garip yaratıkla karşılaşıyoruz: Mutlu Ghast</p>
-                    </div>
-                    
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/QasOSbrPdiY?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>Mutlu Ghastlara Özel Alan Yaptım!</h3>
-                        <p>Onlar için özel bir bekleme alanı inşa ettim! Ahır mantığında çalışan bu yapıyla artık Ghast’larımız düzenli bir şekilde toplanıyor.</p>
-                    </div>
-
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/LnbUsA_6-tQ?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>Minecraft Köyünü Tamamen Yeniledim!</h3>
-                        <p>Önceki köyü tamamen kaldırdım ve yerine yepyeni bir köy inşa ettim.</p>
-                    </div>
-
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/4iiiG9m8aUk?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>Köyü Korumak İçin DEV Gözcü Kulesi Yaptım!</h3>
-                        <p>Köyümüzü korumak için harika bir GÖZCÜ KULESİ inşa ettim.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">Kanal İstatistikleri</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">600+</div>
-                        <div class="stat-label">Abone</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">130,000+</div>
-                        <div class="stat-label">Toplam İzlenme</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">115+</div>
-                        <div class="stat-label">Video Sayısı</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">2023</div>
-                        <div class="stat-label">Başlangıç</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    
-    <!-- Discord Bot Tab -->
-    <div id="discord" class="tab-content active">
-        <section class="hero">
-            <div class="hero-content">
-                <h1>BenYasoBOT</h1>
-                <p class="hero-subtitle">Yeni Nesil Yapay Zeka Discord Botu</p>
-                <p class="hero-description">Özel Discord sunucumuz için özel olarak geliştirilmiş yapay zeka destekli, müzik, oyun ve ekonomi sistemi ile donatılmış premium bot deneyimi</p>
-                <div class="hero-buttons">
-                    <a href="#" class="cta-button">
-                        <span>🚀</span> Sunucuya Katıl
-                    </a>
-                    <a href="#" class="cta-button secondary" onclick="scrollToSection('features')">
-                        <span>✨</span> Özellikleri Keşfet
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="section" id="features">
-            <div class="container">
-                <h2 class="section-title">Özellikler</h2>
-                <div class="grid">
-                    <div class="card">
-                        <div class="card-icon">🤖</div>
-                        <h3>Yapay Zeka Asistanı</h3>
-                        <p>Groq API ile çalışan Llama 3.1 70B modeli. Günde 500,000 token limiti ile ultra hızlı yanıtlar ve mükemmel Türkçe desteği.</p>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">🎵</div>
-                        <h3>Profesyonel Müzik Sistemi</h3>
-                        <p>YouTube entegrasyonu, gelişmiş kuyruk sistemi, otomatik arama önerileri ve yüksek kalite ses akışı.</p>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">
-                            <img src="https://i.postimg.cc/kgWr9BGY/money-1.png" alt="Ekonomi">
-                        </div>
-                        <h3>Gelişmiş Ekonomi Sistemi</h3>
-                        <p>YASO Coin para birimi, günlük ödüller, zombi avlama, maden kazma ve jeton alım-satımı ile gerçek ekonomi simülasyonu.</p>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">🎰</div>
-                        <h3>Casino ve Bahis Oyunları</h3>
-                        <p>Sayı tahmini, slot machine, blackjack, zar oyunu ve yazı-tura ile heyecan dolu casino deneyimi.</p>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">🎯</div>
-                        <h3>Akıllı Kelime Oyunu</h3>
-                        <p>75,815 kelime havuzu, detaylı sıralama sistemi ve Türkçe kelime zinciri oyunu ile eğlenceli öğrenme.</p>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">🎨</div>
-                        <h3>AI Görsel Oluşturma</h3>
-                        <p>Pollinations Flux ile 7/24 görsel oluşturma, 6 farklı stil seçeneği ve hızlı üretim sistemi.</p>
+                        <p>Kendi dünyamı insanlara göstermek hoşuma gidiyor. Yaptığım yapılar, yaşadığım olaylar, kurguladığım sahneler… Her videosu farklı, her anı eğlenceli. Amacım sıradan olmak değil, fark yaratmak.</p>
                     </div>
                 </div>
             </div>
@@ -699,11 +665,11 @@
                         <div class="stat-label">Aktif Komut</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">500,000</div>
+                        <div class="stat-number">500K</div>
                         <div class="stat-label">Günlük Token</div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-number">75,815</div>
+                        <div class="stat-number">75K+</div>
                         <div class="stat-label">Kelime Havuzu</div>
                     </div>
                     <div class="stat-card">
@@ -855,6 +821,16 @@
             });
         });
 
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById('nav-links');
+            const navToggle = document.getElementById('nav-toggle');
+            
+            if (!navLinks.contains(event.target) && !navToggle.contains(event.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+
         // Scroll to section function
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
@@ -878,6 +854,175 @@
                 header.style.background = 'rgba(0, 0, 0, 0.2)';
             }
         });
+
+        // Performance optimization - lazy load videos
+        const observerOptions = {
+            root: null,
+            rootMargin: '50px',
+            threshold: 0.1
+        };
+
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const iframe = entry.target.querySelector('iframe');
+                    if (iframe && !iframe.src) {
+                        iframe.src = iframe.dataset.src;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Apply lazy loading to video thumbnails
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoThumbnails = document.querySelectorAll('.video-thumbnail');
+            videoThumbnails.forEach(thumbnail => {
+                videoObserver.observe(thumbnail);
+            });
+        });
     </script>
 </body>
-</html>
+</html>-title">Sizin İçin</h2>
+                <div class="video-grid">
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/EeoXOVbdvvI?start=10" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                        <h3>BAŞLANGIÇ EVİ ve ELMASLAR! 💎</h3>
+                        <p>Yeni survival dünyamda ilk adımları atıyoruz!</p>
+                    </div>
+                    
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/cv_MR4wkJew?start=10" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                        <h3>SERVET III! 💎 Köylülerle Ticarete Başladık</h3>
+                        <p>Köylülerle ilk ticaretimizi yapıyoruz ve SERVET III büyüsünü kapıyoruz! 💎</p>
+                    </div>
+                    
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/xSuWk3eVgBg?start=10" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                        <h3>MUTLU GHAST Buldum 👻</h3>
+                        <p>Oyunun yeni güncellemesinde eklenen en garip yaratıkla karşılaşıyoruz: Mutlu Ghast</p>
+                    </div>
+                    
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/QasOSbrPdiY?start=10" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                        <h3>Mutlu Ghastlara Özel Alan Yaptım!</h3>
+                        <p>Onlar için özel bir bekleme alanı inşa ettim! Ahır mantığında çalışan bu yapıyla artık Ghast'larımız düzenli bir şekilde toplanıyor.</p>
+                    </div>
+
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/LnbUsA_6-tQ?start=10" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                        <h3>Minecraft Köyünü Tamamen Yeniledim!</h3>
+                        <p>Önceki köyü tamamen kaldırdım ve yerine yepyeni bir köy inşa ettim.</p>
+                    </div>
+
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/4iiiG9m8aUk?start=10" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                        <h3>Köyü Korumak İçin DEV Gözcü Kulesi Yaptım!</h3>
+                        <p>Köyümüzü korumak için harika bir GÖZCÜ KULESİ inşa ettim.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Kanal İstatistikleri</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">600+</div>
+                        <div class="stat-label">Abone</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">130K+</div>
+                        <div class="stat-label">Toplam İzlenme</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">115+</div>
+                        <div class="stat-label">Video Sayısı</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2023</div>
+                        <div class="stat-label">Başlangıç</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Discord Bot Tab -->
+    <div id="discord" class="tab-content">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>BenYasoBOT</h1>
+                <p class="hero-subtitle">Yeni Nesil Yapay Zeka Discord Botu</p>
+                <p class="hero-description">Özel Discord sunucumuz için özel olarak geliştirilmiş yapay zeka destekli, müzik, oyun ve ekonomi sistemi ile donatılmış premium bot deneyimi</p>
+                <div class="hero-buttons">
+                    <a href="#" class="cta-button">
+                        <span>🚀</span> Sunucuya Katıl
+                    </a>
+                    <a href="#" class="cta-button secondary" onclick="scrollToSection('features')">
+                        <span>✨</span> Özellikleri Keşfet
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="features">
+            <div class="container">
+                <h2 class="section-title">Özellikler</h2>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-icon">🤖</div>
+                        <h3>Yapay Zeka Asistanı</h3>
+                        <p>Groq API ile çalışan Llama 3.1 70B modeli. Günde 500,000 token limiti ile ultra hızlı yanıtlar ve mükemmel Türkçe desteği.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">🎵</div>
+                        <h3>Profesyonel Müzik Sistemi</h3>
+                        <p>YouTube entegrasyonu, gelişmiş kuyruk sistemi, otomatik arama önerileri ve yüksek kalite ses akışı.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">
+                            <img src="https://i.postimg.cc/kgWr9BGY/money-1.png" alt="Ekonomi">
+                        </div>
+                        <h3>Gelişmiş Ekonomi Sistemi</h3>
+                        <p>YASO Coin para birimi, günlük ödüller, zombi avlama, maden kazma ve jeton alım-satımı ile gerçek ekonomi simülasyonu.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">🎰</div>
+                        <h3>Casino ve Bahis Oyunları</h3>
+                        <p>Sayı tahmini, slot machine, blackjack, zar oyunu ve yazı-tura ile heyecan dolu casino deneyimi.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">🎯</div>
+                        <h3>Akıllı Kelime Oyunu</h3>
+                        <p>75,815 kelime havuzu, detaylı sıralama sistemi ve Türkçe kelime zinciri oyunu ile eğlenceli öğrenme.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">🎨</div>
+                        <h3>AI Görsel Oluşturma</h3>
+                        <p>Pollinations Flux ile 7/24 görsel oluşturma, 6 farklı stil seçeneği ve hızlı üretim sistemi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section
