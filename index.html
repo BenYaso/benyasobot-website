@@ -764,12 +764,12 @@
             </a>
             <button class="nav-toggle" id="nav-toggle">☰</button>
             <ul class="nav-links" id="nav-links">
-                <li><a href="#" onclick="showTab('youtube', this)" class="active">YouTube</a></li>
-                <li><a href="#" onclick="showTab('canli-veriler', this)">Canlı Veriler</a></li>
-                <li><a href="#" onclick="showTab('sohbet', this)">Sohbet</a></li>
-                <li><a href="#" onclick="showTab('discord', this)">Discord Bot</a></li>
-                <li><a href="#" onclick="showTab('minecraft', this)">Minecraft</a></li>
-                <li><a href="#" onclick="showTab('news', this)">Haberler</a></li>
+                <li><a href="#" data-tab="youtube" class="active">YouTube</a></li>
+                <li><a href="#" data-tab="canli-veriler">Canlı Veriler</a></li>
+                <li><a href="#" data-tab="sohbet">Sohbet</a></li>
+                <li><a href="#" data-tab="discord">Discord Bot</a></li>
+                <li><a href="#" data-tab="minecraft">Minecraft</a></li>
+                <li><a href="#" data-tab="news">Haberler</a></li>
             </ul>
             <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
         </nav>
@@ -1285,39 +1285,36 @@
             });
         }
 
-        // Enter tuşu desteği
+        // Enter tuşu desteği ve Tab click handlers
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("DOM yüklendi");
+            console.log("DOM yüklendi, event listener'lar ekleniyor...");
             
-            // Tab linklerini düzelt
-            const tabLinks = document.querySelectorAll('.nav-links a');
-            tabLinks.forEach(link => {
+            // Tab linklerine click event ekle
+            document.querySelectorAll('.nav-links a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const onclick = this.getAttribute('onclick');
-                    if (onclick) {
-                        const tabName = onclick.match(/showTab\('([^']+)'/);
-                        if (tabName) {
-                            showTab(tabName[1], this);
-                        }
-                    }
+                    const tabName = this.getAttribute('data-tab');
+                    console.log(`Tab tıklandı: ${tabName}`);
+                    showTab(tabName, this);
                 });
             });
 
-            const input = document.getElementById('chat-input-main');
-            if (input) {
-                input.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        sendMessage();
-                    }
-                });
-                console.log("Enter tuşu desteği eklendi");
-            } else {
-                console.log("Chat input bulunamadı");
-            }
+            // Enter tuşu desteği
+            setTimeout(() => {
+                const input = document.getElementById('chat-input-main');
+                if (input) {
+                    input.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            sendMessage();
+                        }
+                    });
+                    console.log("Chat input Enter desteği eklendi");
+                }
+            }, 1000);
 
             // İlk tab'ı göster
-            showTab('youtube');
+            console.log("İlk tab (YouTube) gösteriliyor");
+            showTab('youtube', document.querySelector('a[data-tab="youtube"]'));
         });
 
         // Global erişim için
@@ -1562,47 +1559,60 @@
             }, 3000);
         }
 
-        // Tab System
-        function showTab(tabName, element) {
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
+        // Tab System - Basit ve güvenli
+        function showTab(tabName, clickedElement) {
+            console.log(`Tab değiştiriliyor: ${tabName}`);
             
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => link.classList.remove('active'));
+            // Tüm tab'ları gizle
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
             
-            document.getElementById(tabName).classList.add('active');
+            // Tüm nav linklerini pasif yap
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
             
-            // Element güvenli kontrolü
-            if (element && element.classList) {
-                element.classList.add('active');
-            } else {
-                // Fallback: tabName'e göre doğru linki bul
-                const targetLink = document.querySelector(`a[onclick*="${tabName}"]`);
-                if (targetLink) {
-                    targetLink.classList.add('active');
-                }
+            // Seçilen tab'ı göster
+            const targetTab = document.getElementById(tabName);
+            if (targetTab) {
+                targetTab.classList.add('active');
             }
             
-            const navLinksContainer = document.getElementById('nav-links');
-            if (navLinksContainer) {
-                navLinksContainer.classList.remove('active');
+            // Tıklanan linki aktif yap
+            if (clickedElement) {
+                clickedElement.classList.add('active');
             }
             
+            // Mobil menüyü kapat
+            const navLinks = document.getElementById('nav-links');
+            if (navLinks) {
+                navLinks.classList.remove('active');
+            }
+            
+            // Üste scroll
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Sohbet tab'ı açıldığında chat'i başlat
+            // Sohbet tab'ı özel kontrolü
             if (tabName === 'sohbet') {
-                console.log("Sohbet tab'ı açıldı");
+                console.log("Sohbet tab'ı seçildi, chat başlatılıyor...");
                 setTimeout(() => {
-                    const container = document.getElementById('chat-messages-main');
-                    if (container) {
-                        console.log("Container bulundu, chat başlatılıyor");
-                        startChat();
-                    } else {
-                        console.log("Container hala bulunamadı");
-                    }
-                }, 200);
+                    initializeChatSystem();
+                }, 300);
             }
+        }
+
+        // Chat sistemini başlat
+        function initializeChatSystem() {
+            const container = document.getElementById('chat-messages-main');
+            if (!container) {
+                console.log("Chat container bulunamadı!");
+                setTimeout(initializeChatSystem, 500);
+                return;
+            }
+            
+            console.log("Chat container bulundu, Firebase chat başlatılıyor...");
+            startChatNow(container);
         }
 
         // Initialize
