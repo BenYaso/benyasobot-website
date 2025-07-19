@@ -1356,9 +1356,10 @@
                 });
         };
 
-        // 🔥 GERÇEK ZAMANLI MESAJ DİNLEME + OTOMATİK TEMİZLİK
+        // 🔥 GERÇEK ZAMANLI MESAJ DİNLEME - TİTREME SORUNU ÇÖZÜLDİ
         let messageListener = null;
         let lastMessageIds = new Set();
+        let isUpdatingMessages = false; // DOM güncelleme koruması
 
         function startRealTimeChat() {
             const messagesContainer = document.getElementById('chat-messages-main');
@@ -1377,20 +1378,19 @@
             const messagesQuery = query(messagesRef, orderByChild('timestamp'), limitToLast(100));
 
             messageListener = onValue(messagesQuery, (snapshot) => {
+                if (isUpdatingMessages) return; // Güncelleme devam ediyorsa bekle
+                
                 console.log("📨 Mesajlar güncellendi");
                 
-                // Önce eski mesajları temizle (2 saatten eski)
-                cleanOldMessages();
-                
                 const currentMessages = [];
-                lastMessageIds.clear();
+                const newMessageIds = new Set();
 
                 if (snapshot.exists()) {
                     snapshot.forEach((child) => {
                         const msg = child.val();
                         const msgId = child.key;
                         
-                        if (msg.text && msg.user && !lastMessageIds.has(msgId)) {
+                        if (msg.text && msg.user) {
                             // 2 saatten yeni mesajları al
                             const messageTime = msg.timestamp || 0;
                             const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000);
@@ -1398,56 +1398,90 @@
                             if (messageTime > twoHoursAgo) {
                                 msg.firebaseId = msgId;
                                 currentMessages.push(msg);
-                                lastMessageIds.add(msgId);
+                                newMessageIds.add(msgId);
                             }
                         }
                     });
 
-                    // Timestamp'e göre sırala
-                    currentMessages.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
-
-                    // Mesajları göster
-                    displayMessages(messagesContainer, currentMessages);
+                    // Sadece yeni mesaj varsa güncelle
+                    const hasNewMessages = currentMessages.some(msg => !lastMessageIds.has(msg.firebaseId));
+                    
+                    if (hasNewMessages || lastMessageIds.size === 0) {
+                        // Timestamp'e göre sırala
+                        currentMessages.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+                        
+                        // SADECE YENİ MESAJLARI EKLE - TÜM DOM'U YENİDEN OLUŞTURMA
+                        updateMessagesIncrementally(messagesContainer, currentMessages);
+                        lastMessageIds = newMessageIds;
+                    }
                 } else {
                     // İlk mesajları ekle
-                    addWelcomeMessages();
+                    if (lastMessageIds.size === 0) {
+                        addWelcomeMessages();
+                    }
                 }
             });
         }
 
-        // Mesajları görüntüle
-        function displayMessages(container, messages) {
-            // Mevcut scroll pozisyonunu sakla
-            const isScrolledToBottom = container.scrollHeight - container.clientHeight <= container.scrollTop + 1;
+        // ARTAN GÜNCELEME - DOM'U TAMAMEN YENİDEN OLUŞTURMAZ
+        function updateMessagesIncrementally(container, newMessages) {
+            isUpdatingMessages = true;
             
-            container.innerHTML = '';
+            // Mevcut mesajları kontrol et
+            const existingMessages = container.querySelectorAll('.chat-message');
+            const existingIds = new Set();
             
-            messages.forEach(msg => {
-                const div = document.createElement('div');
-                div.className = 'chat-message';
-                div.setAttribute('data-message-id', msg.firebaseId);
-                
-                const userColor = msg.color || (msg.user === 'BenYaso' ? '#4facfe' : 
-                                              msg.user === 'Sistem' ? '#00f2fe' : '#a5b4fc');
-                
-                const timeStr = msg.timestamp ? 
-                    new Date(msg.timestamp).toLocaleTimeString('tr-TR', {hour: '2-digit', minute: '2-digit'}) : 
-                    'Şimdi';
-
-                div.innerHTML = `
-                    <strong style="color: ${userColor};">${msg.user}:</strong> ${msg.text}
-                    <small style="float: right; color: rgba(255,255,255,0.5);">
-                        ${timeStr}
-                    </small>
-                `;
-                
-                container.appendChild(div);
+            existingMessages.forEach(msg => {
+                const id = msg.getAttribute('data-message-id');
+                if (id) existingIds.add(id);
             });
 
-            // Eğer en alttaysak, scroll'u koru
-            if (isScrolledToBottom) {
-                container.scrollTop = container.scrollHeight;
+            // Sadece yeni mesajları ekle
+            newMessages.forEach(msg => {
+                if (!existingIds.has(msg.firebaseId)) {
+                    const div = document.createElement('div');
+                    div.className = 'chat-message';
+                    div.setAttribute('data-message-id', msg.firebaseId);
+                    
+                    const userColor = msg.color || (msg.user === 'BenYaso' ? '#4facfe' : 
+                                                  msg.user === 'Sistem' ? '#00f2fe' : '#a5b4fc');
+                    
+                    const timeStr = msg.timestamp ? 
+                        new Date(msg.timestamp).toLocaleTimeString('tr-TR', {hour: '2-digit', minute: '2-digit'}) : 
+                        'Şimdi';
+
+                    div.innerHTML = `
+                        <strong style="color: ${userColor};">${msg.user}:</strong> ${msg.text}
+                        <small style="float: right; color: rgba(255,255,255,0.5);">
+                            ${timeStr}
+                        </small>
+                    `;
+                    
+                    // Yeni mesajı ekle (animate ile)
+                    div.style.opacity = '0';
+                    div.style.transform = 'translateY(10px)';
+                    container.appendChild(div);
+                    
+                    // Animasyon
+                    requestAnimationFrame(() => {
+                        div.style.transition = 'all 0.3s ease';
+                        div.style.opacity = '1';
+                        div.style.transform = 'translateY(0)';
+                    });
+                }
+            });
+
+            // Eski mesajları temizle (100'den fazlaysa)
+            while (container.children.length > 100) {
+                container.removeChild(container.firstChild);
             }
+
+            // Scroll'u en alta kaydır
+            container.scrollTop = container.scrollHeight;
+            
+            setTimeout(() => {
+                isUpdatingMessages = false;
+            }, 100);
         }
 
         // 2 saatten eski mesajları sil
@@ -1470,20 +1504,26 @@
             }, { onlyOnce: true }); // Sadece bir kez çalışsın
         }
 
-        // Hoş geldin mesajları
+        // Hoş geldin mesajları - SADECE BİR KEZ
+        let welcomeMessagesAdded = false;
         function addWelcomeMessages() {
+            if (welcomeMessagesAdded) return;
+            welcomeMessagesAdded = true;
+            
             const welcomeMessages = [
                 { text: "Gerçek zamanlı sohbet sistemine hoş geldiniz! 🔥", user: "BenYaso" },
                 { text: "Mesajlar 2 saatte bir otomatik temizlenir 🧹", user: "Sistem" },
                 { text: "İlk mesajı siz atın! 🎮", user: "BenYaso" }
             ];
 
-            welcomeMessages.forEach(msg => {
-                push(ref(db, 'chatMessages'), {
-                    ...msg,
-                    timestamp: serverTimestamp(),
-                    color: msg.user === 'BenYaso' ? '#4facfe' : '#00f2fe'
-                });
+            welcomeMessages.forEach((msg, index) => {
+                setTimeout(() => {
+                    push(ref(db, 'chatMessages'), {
+                        ...msg,
+                        timestamp: serverTimestamp(),
+                        color: msg.user === 'BenYaso' ? '#4facfe' : '#00f2fe'
+                    });
+                }, index * 500); // 500ms arayla ekle
             });
         }
 
