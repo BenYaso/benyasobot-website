@@ -347,10 +347,18 @@
             padding: 0.75rem;
             color: white;
             font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .chat-input::placeholder {
             color: rgba(255, 255, 255, 0.5);
+            transition: color 0.2s ease;
         }
 
         .chat-send {
@@ -1306,14 +1314,18 @@
                 return;
             }
 
-            // Gönderim koruması aktif
+            // Gönderim koruması aktif - SADECE FLAG, INPUT DOKUNMAYALıM
             isMessageSending = true;
-            input.disabled = true; // Input'u geçici devre dışı bırak
+            
+            // Input'u hemen temizle (kullanıcı deneyimi için)
+            const originalText = text;
+            input.value = '';
+            input.placeholder = "Gönderiliyor...";
 
-            console.log("📤 Mesaj gönderiliyor:", text);
+            console.log("📤 Mesaj gönderiliyor:", originalText);
 
             const message = {
-                text: text,
+                text: originalText,
                 user: currentUser,
                 timestamp: serverTimestamp(),
                 color: `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`, // Rastgele renk
@@ -1324,17 +1336,18 @@
             push(ref(db, 'chatMessages'), message)
                 .then(() => {
                     console.log("✅ Mesaj başarıyla gönderildi!");
-                    input.value = '';
+                    input.placeholder = "Mesajınızı yazın...";
                 })
                 .catch((error) => {
                     console.error("❌ Mesaj gönderme hatası:", error);
+                    // Hata durumunda mesajı geri koy
+                    input.value = originalText;
+                    input.placeholder = "Mesajınızı yazın...";
                     alert('Mesaj gönderilemedi. Tekrar deneyin.');
                 })
                 .finally(() => {
                     // Her durumda korumayı kaldır
                     isMessageSending = false;
-                    input.disabled = false;
-                    input.focus(); // Focus'u geri ver
                 });
         };
 
