@@ -282,6 +282,8 @@
             transition: all 0.3s ease;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             text-align: center;
+            min-width: 0; /* Overflow fix */
+            width: 100%; /* Full width */
         }
 
         .widget:hover {
@@ -303,6 +305,12 @@
         .discord-widget {
             background: #5865F2;
             color: white;
+        }
+
+        .discord-widget iframe {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 300px !important;
         }
 
         /* Live Chat */
@@ -479,6 +487,7 @@
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            min-width: 0; /* Flexbox overflow fix */
         }
 
         .stat-card:hover {
@@ -492,12 +501,14 @@
             color: white;
             margin-bottom: 0.5rem;
             animation: pulse 2s infinite;
+            word-break: break-all; /* Uzun sayıları böl */
         }
 
         .stat-label {
             font-size: 1.1rem;
             color: var(--text-secondary);
             font-weight: 500;
+            word-wrap: break-word; /* Uzun kelimeleri böl */
         }
 
         /* Commands */
@@ -672,6 +683,15 @@
             .widgets-section {
                 grid-template-columns: 1fr;
             }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .commands-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
@@ -738,8 +758,51 @@
                 grid-template-columns: 1fr;
             }
 
+            /* MOBİL İSTATİSTİKLER DÜZELTMESİ */
             .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr !important; /* Tek sütun zorunlu */
+                gap: 1rem;
+                margin-top: 2rem;
+            }
+            
+            .stat-card {
+                padding: 1.5rem 1rem; /* Daha az padding */
+                min-height: auto;
+            }
+            
+            .stat-number {
+                font-size: 2rem !important; /* Daha küçük font */
+                word-break: break-all;
+                line-height: 1.2;
+            }
+            
+            .stat-label {
+                font-size: 0.9rem !important; /* Daha küçük label */
+            }
+
+            /* MOBİL WİDGET DÜZELTMESİ */
+            .widgets-section {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .widget {
+                padding: 1.5rem 1rem;
+                margin: 0;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .discord-widget {
+                overflow: hidden;
+            }
+            
+            .discord-widget iframe {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 250px !important; /* Mobilde daha kısa */
+                border-radius: 10px;
             }
 
             .commands-grid {
@@ -762,6 +825,17 @@
             .cta-button {
                 width: 100%;
                 max-width: 280px;
+            }
+            
+            /* MOBİL OVERFLOW FİX */
+            body {
+                overflow-x: hidden !important;
+            }
+            
+            .container {
+                padding: 0 1rem;
+                max-width: 100%;
+                overflow-x: hidden;
             }
         }
     </style>
@@ -1217,15 +1291,15 @@
                     </div>
                     
                     <div class="news-card">
-                        <div class="news-date">1 Temmuz 2025</div>
+                        <div class="news-date">19 Temmuz 2025</div>
                         <h3 class="news-title">🌐 Yeni Website!</h3>
                         <p class="news-content">Kendi websitemi hayata geçirdim! Buradan tüm projelerimi, videolarımı ve bot özelliklerimi takip edebilirsiniz. Daha da güzel güncellemeler gelecek!</p>
                     </div>
                     
                     <div class="news-card">
-                        <div class="news-date">25 Haziran 2025</div>
+                        <div class="news-date">????????</div>
                         <h3 class="news-title">🎮 Minecraft Sunucu Planı</h3>
-                        <p class="news-content">Topluluk olarak büyüdüğümüz için Minecraft sunucusu açmayı planlıyorum. Discord'da fikir alışverişi yapıyoruz. Siz de katılın ve görüşlerinizi paylaşın!</p>
+                        <p class="news-content">Topluluk olarak büyürsek Minecraft sunucusu açmayı planlıyorum. Discord'da fikir alışverişi yapıyoruz. Siz de katılın ve görüşlerinizi paylaşın!</p>
                     </div>
                 </div>
             </div>
