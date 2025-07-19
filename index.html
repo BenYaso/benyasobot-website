@@ -764,10 +764,10 @@
             </a>
             <button class="nav-toggle" id="nav-toggle">☰</button>
             <ul class="nav-links" id="nav-links">
-                <li><a href="#" onclick="showTab('youtube')" class="active">YouTube</a></li>
-                <li><a href="#" onclick="showTab('discord')">Discord Bot</a></li>
-                <li><a href="#" onclick="showTab('minecraft')">Minecraft</a></li>
-                <li><a href="#" onclick="showTab('news')">Haberler</a></li>
+                <li><a href="#" onclick="showTab('youtube', this)" class="active">YouTube</a></li>
+                <li><a href="#" onclick="showTab('discord', this)">Discord Bot</a></li>
+                <li><a href="#" onclick="showTab('minecraft', this)">Minecraft</a></li>
+                <li><a href="#" onclick="showTab('news', this)">Haberler</a></li>
             </ul>
             <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
         </nav>
@@ -1445,7 +1445,7 @@
         }
 
         // Tab System
-        function showTab(tabName) {
+        function showTab(tabName, element) {
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.classList.remove('active'));
             
@@ -1453,9 +1453,23 @@
             navLinks.forEach(link => link.classList.remove('active'));
             
             document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
             
-            document.getElementById('nav-links').classList.remove('active');
+            // Element parametresi varsa onu aktif yap, yoksa tabName'e göre bul
+            if (element) {
+                element.classList.add('active');
+            } else {
+                // İlk yükleme için default olarak YouTube'u aktif yap
+                const youtubeLink = document.querySelector('a[onclick*="youtube"]');
+                if (youtubeLink) {
+                    youtubeLink.classList.add('active');
+                }
+            }
+            
+            const navLinksContainer = document.getElementById('nav-links');
+            if (navLinksContainer) {
+                navLinksContainer.classList.remove('active');
+            }
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1481,7 +1495,7 @@
         });
 
         document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
                 document.getElementById('nav-links').classList.remove('active');
             });
         });
