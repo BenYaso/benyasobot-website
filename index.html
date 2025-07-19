@@ -766,6 +766,7 @@
             <ul class="nav-links" id="nav-links">
                 <li><a href="#" onclick="showTab('youtube', this)" class="active">YouTube</a></li>
                 <li><a href="#" onclick="showTab('canli-veriler', this)">Canlı Veriler</a></li>
+                <li><a href="#" onclick="showTab('sohbet', this)">Sohbet</a></li>
                 <li><a href="#" onclick="showTab('discord', this)">Discord Bot</a></li>
                 <li><a href="#" onclick="showTab('minecraft', this)">Minecraft</a></li>
                 <li><a href="#" onclick="showTab('news', this)">Haberler</a></li>
@@ -928,24 +929,6 @@
                             <iframe src="https://discord.com/widget?id=1385317817888411729&theme=dark" width="100%" height="300" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" style="border-radius: 10px; max-width: 100%;"></iframe>
                         </div>
                         <small style="color: rgba(255,255,255,0.6); display: block; margin-top: 0.5rem;">Gerçek zamanlı Discord widget</small>
-                    </div>
-                    
-                    <div class="widget">
-                        <h3>💬 Demo Sohbet</h3>
-                        <div class="chat-container">
-                            <div class="chat-messages" id="chat-messages">
-                                <div class="chat-message">
-                                    <strong>Ziyaretçi:</strong> Harika site! 🎮
-                                </div>
-                                <div class="chat-message">
-                                    <strong>Fan:</strong> Yeni video ne zaman? 🤔
-                                </div>
-                            </div>
-                            <div class="chat-input-group">
-                                <input type="text" class="chat-input" id="chat-input" placeholder="Mesajınızı yazın..." maxlength="100">
-                                <button class="chat-send" onclick="sendMessage()">Gönder</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1190,6 +1173,148 @@
         </div>
     </footer>
 
+    <script type="module">
+        // Firebase Configuration
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, push, onValue, query, orderByChild, limitToLast } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC_IgO_xCzkeNGkaoCh59vdIWBQgu51Fmk",
+            authDomain: "benyaso-2d53b.firebaseapp.com",
+            databaseURL: "https://benyaso-2d53b-default-rtdb.firebaseio.com",
+            projectId: "benyaso-2d53b",
+            storageBucket: "benyaso-2d53b.firebasestorage.app",
+            messagingSenderId: "518556386840",
+            appId: "1:518556386840:web:abaa02ae4b42bd0eb5256d",
+            measurementId: "G-E3C6MDGXPN"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Chat System
+        let chatInitialized = false;
+
+        function initializeChat() {
+            if (chatInitialized) return;
+            chatInitialized = true;
+
+            console.log('Firebase Chat sistemi başlatılıyor...');
+            
+            // Son 50 mesajı dinle
+            const messagesRef = ref(database, 'messages');
+            const messagesQuery = query(messagesRef, orderByChild('timestamp'), limitToLast(50));
+            
+            onValue(messagesQuery, (snapshot) => {
+                const messagesContainer = document.getElementById('chat-messages-main');
+                if (!messagesContainer) return;
+                
+                messagesContainer.innerHTML = '';
+                
+                if (snapshot.exists()) {
+                    const messages = [];
+                    snapshot.forEach((childSnapshot) => {
+                        messages.push(childSnapshot.val());
+                    });
+                    
+                    // Mesajları zaman sırasına göre sırala
+                    messages.sort((a, b) => a.timestamp - b.timestamp);
+                    
+                    messages.forEach(message => {
+                        const messageDiv = document.createElement('div');
+                        messageDiv.className = 'chat-message';
+                        
+                        const time = new Date(message.timestamp).toLocaleTimeString('tr-TR', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                        
+                        messageDiv.innerHTML = `
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <strong style="color: #4facfe;">${escapeHtml(message.user)}:</strong> ${escapeHtml(message.text)}
+                                </div>
+                                <small style="color: rgba(255,255,255,0.5); margin-left: 1rem; white-space: nowrap;">
+                                    ${time}
+                                </small>
+                            </div>
+                        `;
+                        messagesContainer.appendChild(messageDiv);
+                    });
+                } else {
+                    // İlk mesajlar
+                    messagesContainer.innerHTML = `
+                        <div class="chat-message">
+                            <strong style="color: #4facfe;">BenYaso:</strong> Sohbet sistemine hoş geldiniz! 🎮
+                        </div>
+                        <div class="chat-message">
+                            <strong style="color: #00f2fe;">Sistem:</strong> Bu gerçek zamanlı bir sohbet sistemi. Mesajlarınız tüm ziyaretçiler tarafından görülür.
+                        </div>
+                        <div class="chat-message">
+                            <strong style="color: #4facfe;">BenYaso:</strong> Minecraft, YouTube ve Discord hakkında konuşalım! 🎥
+                        </div>
+                    `;
+                }
+                
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Global fonksiyonlar
+        window.sendMainChatMessage = function() {
+            const input = document.getElementById('chat-input-main');
+            const message = input.value.trim();
+            
+            if (message && message.length <= 200) {
+                // Kullanıcı adı oluştur
+                const userNames = ['Ziyaretçi', 'İzleyici', 'Fan', 'Oyuncu', 'Takipçi', 'Viewer'];
+                const randomUser = userNames[Math.floor(Math.random() * userNames.length)] + 
+                                  Math.floor(Math.random() * 1000);
+                
+                // Mesajı Firebase'e gönder
+                const messagesRef = ref(database, 'messages');
+                push(messagesRef, {
+                    text: message,
+                    user: randomUser,
+                    timestamp: Date.now()
+                });
+                
+                input.value = '';
+                console.log('Ana sohbet mesajı gönderildi:', message);
+            }
+        };
+
+        window.sendFirebaseMessage = function() {
+            // Bu fonksiyon artık ana sohbeti çağırır
+            sendMainChatMessage();
+        };
+
+        // Enter tuşu ile mesaj gönder
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatInputMain = document.getElementById('chat-input-main');
+            if (chatInputMain) {
+                chatInputMain.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendMainChatMessage();
+                    }
+                });
+            }
+        });
+
+        // Chat'i başlat
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1 saniye bekle, sonra chat'i başlat
+            setTimeout(initializeChat, 1000);
+        });
+    </script>
+
     <script>
         // YouTube API Configuration
         const YOUTUBE_API_KEY = 'AIzaSyAwC6sByfoq9n4G72tfFtwf2XETXaSdg04';
@@ -1375,43 +1500,13 @@
             document.querySelector('.scroll-progress').style.width = progress + '%';
         });
 
-        // Live Chat System
-        function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const messages = document.getElementById('chat-messages');
-            const message = input.value.trim();
-            
-            if (message) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'chat-message';
-                messageDiv.innerHTML = `<strong>Sen:</strong> ${message}`;
-                messages.appendChild(messageDiv);
-                messages.scrollTop = messages.scrollHeight;
-                input.value = '';
-                
-                // Simulate response
-                setTimeout(() => {
-                    const responses = [
-                        'Harika mesaj! 😊',
-                        'Katılıyorum! 👍',
-                        'Discord\'da daha detaylı konuşalım!',
-                        'Yeni video için teşekkürler! 🎥',
-                        'Minecraft sunucusu için sabırsızlanıyorum!'
-                    ];
-                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                    const responseDiv = document.createElement('div');
-                    responseDiv.className = 'chat-message';
-                    responseDiv.innerHTML = `<strong>BenYaso:</strong> ${randomResponse}`;
-                    messages.appendChild(responseDiv);
-                    messages.scrollTop = messages.scrollHeight;
-                }, 1000);
-            }
-        }
+        // Live Chat System (eski demo sistemi kaldırıldı)
+        // Artık Firebase ile gerçek zamanlı chat var
 
-        // Enter key for chat
-        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+        // Enter key for chat (güncellenmiş)
+        document.getElementById('chat-input')?.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                sendMessage();
+                sendFirebaseMessage();
             }
         });
 
