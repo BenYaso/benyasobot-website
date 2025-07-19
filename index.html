@@ -1239,13 +1239,13 @@
         }
 
         function startChatNow(messagesContainer) {
-            console.log("Chat başlatılıyor...");
+            console.log("startChatNow çağrıldı, container:", messagesContainer);
             
             const messagesRef = ref(db, 'messages');
             const messagesQuery = query(messagesRef, orderByChild('timestamp'), limitToLast(50));
 
             onValue(messagesQuery, (snapshot) => {
-                console.log("Mesajlar güncelleniyor");
+                console.log("Firebase'den mesajlar alındı");
                 messagesContainer.innerHTML = '';
 
                 if (snapshot.exists()) {
@@ -1255,6 +1255,7 @@
                     });
 
                     messages.sort((a, b) => a.timestamp - b.timestamp);
+                    console.log(`${messages.length} mesaj yüklendi`);
 
                     messages.forEach(msg => {
                         const div = document.createElement('div');
@@ -1268,6 +1269,7 @@
                         messagesContainer.appendChild(div);
                     });
                 } else {
+                    console.log("Henüz mesaj yok, başlangıç mesajları ekleniyor");
                     messagesContainer.innerHTML = `
                         <div class="chat-message">
                             <strong style="color: #4facfe;">BenYaso:</strong> Sohbet sistemine hoş geldiniz! 🎮
@@ -1282,6 +1284,7 @@
                 }
 
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                console.log("Mesajlar görüntülendi ve scroll yapıldı");
             });
         }
 
@@ -1593,25 +1596,63 @@
             // Üste scroll
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Sohbet tab'ı özel kontrolü
+            // Sohbet tab'ı özel kontrolü - ZORLA DEBUG
             if (tabName === 'sohbet') {
-                console.log("Sohbet tab'ı seçildi, chat başlatılıyor...");
+                console.log("🔥 SOHBET TAB'I SEÇİLDİ!");
+                console.log("DOM elementleri kontrol ediliyor...");
+                
+                // 1 saniye bekle, sonra debug başlat
                 setTimeout(() => {
+                    console.log("⏰ 1 saniye sonra debug başlıyor...");
                     initializeChatSystem();
-                }, 300);
+                }, 1000);
             }
         }
 
-        // Chat sistemini başlat
+        // Chat sistemini başlat - MANUAL DEBUG
         function initializeChatSystem() {
-            const container = document.getElementById('chat-messages-main');
+            console.log("=== CHAT DEBUG BAŞLADI ===");
+            
+            // Mevcut tüm elementleri listele
+            console.log("Sohbet tab'ı var mı:", document.getElementById('sohbet'));
+            console.log("chat-messages-main var mı:", document.getElementById('chat-messages-main'));
+            
+            // Tüm chat-messages class'ı olan elementleri bul
+            const allChatMessages = document.querySelectorAll('.chat-messages');
+            console.log("Tüm chat-messages elementleri:", allChatMessages);
+            
+            // Sohbet tab'ındaki tüm elementleri listele
+            const sohbetTab = document.getElementById('sohbet');
+            if (sohbetTab) {
+                console.log("Sohbet tab içeriği:", sohbetTab.innerHTML.substring(0, 200));
+                const chatDivs = sohbetTab.querySelectorAll('div');
+                console.log("Sohbet tab'ındaki div sayısı:", chatDivs.length);
+            }
+            
+            // Manuel container arama
+            let container = document.getElementById('chat-messages-main');
+            
+            // Eğer bulamazsa alternatif ara
             if (!container) {
-                console.log("Chat container bulunamadı!");
-                setTimeout(initializeChatSystem, 500);
+                console.log("ID ile bulunamadı, class ile arıyorum...");
+                const chatContainers = document.querySelectorAll('.chat-messages');
+                for (let i = 0; i < chatContainers.length; i++) {
+                    console.log(`Chat container ${i}:`, chatContainers[i]);
+                    if (chatContainers[i].id === 'chat-messages-main') {
+                        container = chatContainers[i];
+                        console.log("Container bulundu!");
+                        break;
+                    }
+                }
+            }
+            
+            if (!container) {
+                console.log("KESİNLİKLE BULUNAMADI! 1 saniye sonra tekrar deniyorum...");
+                setTimeout(initializeChatSystem, 1000);
                 return;
             }
             
-            console.log("Chat container bulundu, Firebase chat başlatılıyor...");
+            console.log("=== CONTAINER BULUNDU! ===", container);
             startChatNow(container);
         }
 
