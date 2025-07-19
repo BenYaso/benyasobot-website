@@ -109,6 +109,9 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
         }
 
         .hero-subtitle {
@@ -308,7 +311,7 @@
         /* Video Grid */
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             margin-top: 3rem;
         }
@@ -413,6 +416,12 @@
         }
 
         /* Mobile */
+        @media (max-width: 1024px) {
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-toggle {
                 display: block;
@@ -450,6 +459,18 @@
 
             .hero {
                 padding: 8rem 1rem 4rem;
+            }
+
+            .hero h1 {
+                font-size: clamp(2rem, 8vw, 3.5rem);
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
             }
 
             .section {
@@ -504,8 +525,8 @@
         </nav>
     </header>
 
-    <!-- yotuube Tab -->
-    <div id="youtube" class="tab-content">
+    <!-- YouTube Tab -->
+    <div id="youtube" class="tab-content active">
         <section class="hero">
             <div class="hero-content">
                 <h1>BenYasoMinecraft</h1>
@@ -580,7 +601,7 @@
                             <iframe src="https://www.youtube.com/embed/QasOSbrPdiY?start=10" frameborder="0" allowfullscreen></iframe>
                         </div>
                         <h3>Mutlu Ghastlara Özel Alan Yaptım!</h3>
-                        <p>Onlar için özel bir bekleme alanı inşa ettim! Ahır mantığında çalışan bu yapıyla artık Ghast’larımız düzenli bir şekilde toplanıyor.</p>
+                        <p>Onlar için özel bir bekleme alanı inşa ettim! Ahır mantığında çalışan bu yapıyla artık Ghast'larımız düzenli bir şekilde toplanıyor.</p>
                     </div>
 
                     <div class="video-card">
@@ -628,7 +649,7 @@
     </div>
     
     <!-- Discord Bot Tab -->
-    <div id="discord" class="tab-content active">
+    <div id="discord" class="tab-content">
         <section class="hero">
             <div class="hero-content">
                 <h1>BenYasoBOT</h1>
