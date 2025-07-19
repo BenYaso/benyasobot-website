@@ -6,6 +6,24 @@
     <title>BenYaso - Ana Sayfa</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #4facfe;
+            --secondary-color: #00f2fe;
+            --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-dark: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --text-primary: white;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --bg-dark: linear-gradient(135deg, #0f0f23 0%, #0d1421 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,9 +32,33 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Particles Background */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            z-index: 1001;
+            transition: width 0.1s ease;
         }
 
         /* Header */
@@ -78,6 +120,22 @@
             cursor: pointer;
         }
 
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(79, 172, 254, 0.3);
+        }
+
         /* Tab Content */
         .tab-content {
             display: none;
@@ -95,10 +153,12 @@
             justify-content: center;
             text-align: center;
             padding: 8rem 2rem 4rem;
+            position: relative;
         }
 
         .hero-content {
             max-width: 800px;
+            z-index: 2;
         }
 
         .hero h1 {
@@ -110,12 +170,14 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             line-height: 1.2;
+            animation: slideInUp 1s ease-out;
         }
 
         .hero-subtitle {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: rgba(255, 255, 255, 0.9);
+            animation: slideInUp 1s ease-out 0.2s both;
         }
 
         .hero-description {
@@ -123,6 +185,7 @@
             margin-bottom: 2rem;
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
+            animation: slideInUp 1s ease-out 0.4s both;
         }
 
         .hero-buttons {
@@ -130,6 +193,7 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            animation: slideInUp 1s ease-out 0.6s both;
         }
 
         .cta-button {
@@ -156,11 +220,34 @@
             backdrop-filter: blur(20px);
         }
 
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         /* Section */
         .section {
             padding: 4rem 2rem;
-            background: rgba(0, 0, 0, 0.1);
+            background: var(--glass-bg);
             backdrop-filter: blur(20px);
+            position: relative;
         }
 
         .container {
@@ -176,6 +263,143 @@
             color: white;
         }
 
+        /* Widgets */
+        .widgets-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .widget {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .widget:hover {
+            transform: translateY(-5px);
+        }
+
+        .widget h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .subscriber-count {
+            font-size: 2rem;
+            font-weight: 900;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .discord-widget {
+            background: #5865F2;
+            color: white;
+        }
+
+        /* Live Chat */
+        .chat-container {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .chat-messages {
+            min-height: 200px;
+            margin-bottom: 1rem;
+        }
+
+        .chat-message {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0.5rem 0;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            animation: slideInUp 0.3s ease;
+        }
+
+        .chat-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 0.75rem;
+            color: white;
+            font-family: inherit;
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .chat-send {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-send:hover {
+            transform: scale(1.05);
+        }
+
+        /* News Section */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .news-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-date {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .news-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
         /* Grid */
         .grid {
             display: grid;
@@ -185,8 +409,8 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 2rem;
             backdrop-filter: blur(20px);
@@ -202,6 +426,7 @@
         .card-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
         }
 
         .card-icon img {
@@ -218,7 +443,7 @@
         }
 
         .card p {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-secondary);
             line-height: 1.6;
         }
 
@@ -231,8 +456,8 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 2rem;
             text-align: center;
@@ -251,11 +476,12 @@
             font-weight: 900;
             color: white;
             margin-bottom: 0.5rem;
+            animation: pulse 2s infinite;
         }
 
         .stat-label {
             font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-secondary);
             font-weight: 500;
         }
 
@@ -268,8 +494,8 @@
         }
 
         .command-category {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 2rem;
             backdrop-filter: blur(20px);
@@ -295,14 +521,14 @@
 
         .command-list li {
             padding: 0.5rem 0;
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-secondary);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             font-family: 'Courier New', monospace;
         }
 
         .command-list li::before {
             content: '▶';
-            color: #4facfe;
+            color: var(--primary-color);
             margin-right: 0.5rem;
         }
 
@@ -315,8 +541,8 @@
         }
 
         .video-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 1.5rem;
             backdrop-filter: blur(20px);
@@ -351,8 +577,26 @@
         }
 
         .video-card p {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-secondary);
             line-height: 1.5;
+        }
+
+        /* Easter Eggs */
+        .easter-egg {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><rect width="50" height="50" fill="%2300ff00"/><rect x="10" y="10" width="30" height="30" fill="%23000"/></svg>');
+            z-index: 999;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .easter-egg.show {
+            opacity: 1;
+            pointer-events: all;
         }
 
         /* Coming Soon */
@@ -367,15 +611,6 @@
             background: rgba(255, 255, 255, 0.05);
             border: 2px dashed rgba(255, 255, 255, 0.3);
             animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { 
-                border-color: rgba(255, 255, 255, 0.3);
-            }
-            50% { 
-                border-color: rgba(79, 172, 254, 0.5);
-            }
         }
 
         /* Footer */
@@ -399,8 +634,8 @@
             justify-content: center;
             width: 60px;
             height: 60px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 50%;
             color: white;
             text-decoration: none;
@@ -409,7 +644,7 @@
         }
 
         .social-links a:hover {
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             transform: translateY(-2px);
         }
 
@@ -417,6 +652,10 @@
         @media (max-width: 1024px) {
             .video-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .widgets-section {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -460,11 +699,8 @@
             }
 
             .hero h1 {
-                font-size: clamp(1.8rem, 7vw, 3rem);
-                white-space: normal;
-                word-break: keep-all;
-                overflow: visible;
-                text-overflow: unset;
+                font-size: clamp(2rem, 7vw, 3.5rem);
+                line-height: 1.1;
             }
 
             .hero-subtitle {
@@ -499,6 +735,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
             .hero-buttons {
                 flex-direction: column;
                 align-items: center;
@@ -512,6 +752,10 @@
     </style>
 </head>
 <body>
+    <div class="scroll-progress"></div>
+    <canvas id="particles-canvas"></canvas>
+    <div class="easter-egg" id="easter-egg"></div>
+
     <header>
         <nav>
             <a href="#" class="logo">
@@ -523,7 +767,9 @@
                 <li><a href="#" onclick="showTab('youtube')" class="active">YouTube</a></li>
                 <li><a href="#" onclick="showTab('discord')">Discord Bot</a></li>
                 <li><a href="#" onclick="showTab('minecraft')">Minecraft</a></li>
+                <li><a href="#" onclick="showTab('news')">Haberler</a></li>
             </ul>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
         </nav>
     </header>
 
@@ -541,6 +787,46 @@
                     <a href="#" class="cta-button secondary" onclick="scrollToSection('about')">
                         <span>👤</span> Hakkımda
                     </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Widgets Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Canlı Veriler</h2>
+                <div class="widgets-section">
+                    <div class="widget">
+                        <h3>📺 YouTube Abone Sayısı</h3>
+                        <div class="subscriber-count" id="subscriber-count">600+</div>
+                        <p>Simülasyon abone sayısı</p>
+                    </div>
+                    
+                    <div class="widget discord-widget">
+                        <h3>💬 Discord Sunucusu</h3>
+                        <div style="font-size: 1.5rem; margin: 1rem 0;">
+                            <span id="discord-members">42</span> Üye Online
+                        </div>
+                        <a href="#" style="color: white; text-decoration: underline;">Sunucuya Katıl</a>
+                    </div>
+                    
+                    <div class="widget">
+                        <h3>💬 Demo Sohbet</h3>
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="chat-message">
+                                    <strong>Ziyaretçi:</strong> Harika site! 🎮
+                                </div>
+                                <div class="chat-message">
+                                    <strong>Fan:</strong> Yeni video ne zaman? 🤔
+                                </div>
+                            </div>
+                            <div class="chat-input-group">
+                                <input type="text" class="chat-input" id="chat-input" placeholder="Mesajınızı yazın..." maxlength="100">
+                                <button class="chat-send" onclick="sendMessage()">Gönder</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -564,7 +850,7 @@
                     <div class="card">
                         <div class="card-icon">📸</div>
                         <h3>YouTube'a Gönül Verdik</h3>
-                        <p>Kendi dünyamı insanlara göstermek hoşuma gidiyor. Yaptığım yapılar, yaşadığım olaylar, kurguladığım sahneler… Her videosu farklı, her anı eğlenceli. Amacım sıradan olmak değil, fark yaratmak. </p>
+                        <p>Kendi dünyamı insanlara göstermek hoşuma gidiyor. Yaptığım yapılar, yaşadığım olaylar, kurguladığım sahneler… Her videosu farklı, her anı eğlenceli. Amacım sıradan olmak değil, fark yaratmak.</p>
                     </div>
                 </div>
             </div>
@@ -817,6 +1103,60 @@
         </section>
     </div>
 
+    <!-- News Tab -->
+    <div id="news" class="tab-content">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Haberler & Duyurular</h1>
+                <p class="hero-subtitle">Son Gelişmeler</p>
+                <p class="hero-description">En son haberler, güncellemeler ve duyurular burada!</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Son Haberler</h2>
+                <div class="news-grid">
+                    <div class="news-card">
+                        <div class="news-date">19 Temmuz 2025</div>
+                        <h3 class="news-title">🎉 600 Abone Kutlaması!</h3>
+                        <p class="news-content">Harika bir kilometre taşına ulaştık! 600 abone barajını geçtik. Bu başarının kutlaması için özel bir video hazırlıyorum. Teşekkürler!</p>
+                    </div>
+                    
+                    <div class="news-card">
+                        <div class="news-date">15 Temmuz 2025</div>
+                        <h3 class="news-title">🤖 Discord Bot Güncellemesi</h3>
+                        <p class="news-content">BenYasoBOT'a yeni özellikler eklendi! Artık AI görsel oluşturma özelliği ile kendi resimlerinizi yaratabilirsiniz. Ayrıca kelime oyunu daha da geliştirildi.</p>
+                    </div>
+                    
+                    <div class="news-card">
+                        <div class="news-date">10 Temmuz 2025</div>
+                        <h3 class="news-title">🏗️ Yeni Köy Projesi</h3>
+                        <p class="news-content">Minecraft dünyamda büyük bir köy renovasyonu yapıyorum! Eski köyü tamamen yıkıp yerine modern bir yerleşim kuracağım. Video serisi yakında!</p>
+                    </div>
+                    
+                    <div class="news-card">
+                        <div class="news-date">5 Temmuz 2025</div>
+                        <h3 class="news-title">📺 Yeni Video Programı</h3>
+                        <p class="news-content">Artık daha düzenli video yüklemeye başlıyorum! Haftada 2-3 video hedefiyle yeni bir program başlattım. Survival serisine ek olarak tutorial videoları da geliyor.</p>
+                    </div>
+                    
+                    <div class="news-card">
+                        <div class="news-date">1 Temmuz 2025</div>
+                        <h3 class="news-title">🌐 Yeni Website!</h3>
+                        <p class="news-content">Kendi websitemi hayata geçirdim! Buradan tüm projelerimi, videolarımı ve bot özelliklerimi takip edebilirsiniz. Daha da güzel güncellemeler gelecek!</p>
+                    </div>
+                    
+                    <div class="news-card">
+                        <div class="news-date">25 Haziran 2025</div>
+                        <h3 class="news-title">🎮 Minecraft Sunucu Planı</h3>
+                        <p class="news-content">Topluluk olarak büyüdüğümüz için Minecraft sunucusu açmayı planlıyorum. Discord'da fikir alışverişi yapıyoruz. Siz de katılın ve görüşlerinizi paylaşın!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
     <footer>
         <div class="container">
             <div class="social-links">
@@ -837,32 +1177,203 @@
     </footer>
 
     <script>
+        // Particles Animation
+        class ParticleSystem {
+            constructor() {
+                this.canvas = document.getElementById('particles-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.resize();
+                this.init();
+                this.animate();
+                
+                window.addEventListener('resize', () => this.resize());
+            }
+            
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            
+            init() {
+                for (let i = 0; i < 50; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        size: Math.random() * 3 + 1,
+                        opacity: Math.random() * 0.5 + 0.1
+                    });
+                }
+            }
+            
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                this.particles.forEach(particle => {
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    
+                    if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1;
+                    if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1;
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    this.ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
+                    this.ctx.fill();
+                });
+                
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // Initialize particles
+        new ParticleSystem();
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            }
+        });
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset;
+            const progress = (scrollTop / (docHeight - winHeight)) * 100;
+            
+            document.querySelector('.scroll-progress').style.width = progress + '%';
+        });
+
+        // Live Chat System
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const messages = document.getElementById('chat-messages');
+            const message = input.value.trim();
+            
+            if (message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'chat-message';
+                messageDiv.innerHTML = `<strong>Sen:</strong> ${message}`;
+                messages.appendChild(messageDiv);
+                messages.scrollTop = messages.scrollHeight;
+                input.value = '';
+                
+                // Simulate response
+                setTimeout(() => {
+                    const responses = [
+                        'Harika mesaj! 😊',
+                        'Katılıyorum! 👍',
+                        'Discord\'da daha detaylı konuşalım!',
+                        'Yeni video için teşekkürler! 🎥',
+                        'Minecraft sunucusu için sabırsızlanıyorum!'
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    const responseDiv = document.createElement('div');
+                    responseDiv.className = 'chat-message';
+                    responseDiv.innerHTML = `<strong>BenYaso:</strong> ${randomResponse}`;
+                    messages.appendChild(responseDiv);
+                    messages.scrollTop = messages.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        // Enter key for chat
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // YouTube Subscriber Counter Animation
+        function animateCounter() {
+            const counter = document.getElementById('subscriber-count');
+            const target = 623;
+            let current = 600;
+            
+            const increment = () => {
+                if (current < target) {
+                    current += Math.ceil(Math.random() * 3);
+                    counter.textContent = current + '+';
+                    setTimeout(increment, 100);
+                }
+            };
+            
+            setTimeout(increment, 2000);
+        }
+
+        // Discord Members Counter
+        function updateDiscordMembers() {
+            const membersCount = document.getElementById('discord-members');
+            const count = Math.floor(Math.random() * 20) + 35;
+            membersCount.textContent = count;
+        }
+
+        // Easter Egg
+        let clickCount = 0;
+        document.addEventListener('click', function(e) {
+            if (e.ctrlKey && e.altKey) {
+                clickCount++;
+                if (clickCount >= 3) {
+                    showEasterEgg();
+                    clickCount = 0;
+                }
+            }
+        });
+
+        function showEasterEgg() {
+            const easterEgg = document.getElementById('easter-egg');
+            easterEgg.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+            easterEgg.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+            easterEgg.classList.add('show');
+            
+            setTimeout(() => {
+                easterEgg.classList.remove('show');
+            }, 3000);
+        }
+
         // Tab System
         function showTab(tabName) {
-            // Hide all tabs
             const tabs = document.querySelectorAll('.tab-content');
             tabs.forEach(tab => tab.classList.remove('active'));
             
-            // Remove active class from all nav links
             const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach(link => link.classList.remove('active'));
             
-            // Show selected tab
             document.getElementById(tabName).classList.add('active');
-            
-            // Add active class to clicked nav link
             event.target.classList.add('active');
             
-            // Close mobile menu
             document.getElementById('nav-links').classList.remove('active');
-            
-            // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Initialize first tab
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             showTab('youtube');
+            animateCounter();
+            updateDiscordMembers();
+            setInterval(updateDiscordMembers, 30000);
         });
 
         // Mobile Navigation
@@ -871,7 +1382,6 @@
             navLinks.classList.toggle('active');
         });
 
-        // Close mobile menu when clicking links
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 document.getElementById('nav-links').classList.remove('active');
@@ -884,7 +1394,6 @@
             if (element) {
                 const headerHeight = 80;
                 const targetPosition = element.offsetTop - headerHeight;
-                
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
