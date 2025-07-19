@@ -102,16 +102,16 @@
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(2.5rem, 6vw, 5rem);
             font-weight: 900;
             margin-bottom: 1rem;
             background: linear-gradient(135deg, #ffffff, #a5b4fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            word-break: break-word;
-            overflow-wrap: break-word;
-            hyphens: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .hero-subtitle {
@@ -462,7 +462,11 @@
             }
 
             .hero h1 {
-                font-size: clamp(2rem, 8vw, 3.5rem);
+                font-size: clamp(1.8rem, 7vw, 3rem);
+                white-space: normal;
+                word-break: keep-all;
+                overflow: visible;
+                text-overflow: unset;
             }
 
             .hero-subtitle {
