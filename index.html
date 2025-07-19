@@ -1224,9 +1224,21 @@
             const messagesContainer = document.getElementById('chat-messages-main');
             if (!messagesContainer) {
                 console.log("Mesaj container bulunamadı");
+                // Tekrar dene
+                setTimeout(() => {
+                    const container2 = document.getElementById('chat-messages-main');
+                    if (container2) {
+                        console.log("Container ikinci denemede bulundu");
+                        startChatNow(container2);
+                    }
+                }, 500);
                 return;
             }
 
+            startChatNow(messagesContainer);
+        }
+
+        function startChatNow(messagesContainer) {
             console.log("Chat başlatılıyor...");
             
             const messagesRef = ref(db, 'messages');
@@ -1263,6 +1275,9 @@
                         <div class="chat-message">
                             <strong style="color: #00f2fe;">Sistem:</strong> Bu gerçek zamanlı bir sohbet sistemi.
                         </div>
+                        <div class="chat-message">
+                            <strong style="color: #4facfe;">BenYaso:</strong> İlk mesajı siz atın! 🎥
+                        </div>
                     `;
                 }
 
@@ -1272,6 +1287,23 @@
 
         // Enter tuşu desteği
         document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM yüklendi");
+            
+            // Tab linklerini düzelt
+            const tabLinks = document.querySelectorAll('.nav-links a');
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const onclick = this.getAttribute('onclick');
+                    if (onclick) {
+                        const tabName = onclick.match(/showTab\('([^']+)'/);
+                        if (tabName) {
+                            showTab(tabName[1], this);
+                        }
+                    }
+                });
+            });
+
             const input = document.getElementById('chat-input-main');
             if (input) {
                 input.addEventListener('keypress', function(e) {
@@ -1279,10 +1311,13 @@
                         sendMessage();
                     }
                 });
+                console.log("Enter tuşu desteği eklendi");
+            } else {
+                console.log("Chat input bulunamadı");
             }
 
-            // Chat'i başlat
-            setTimeout(startChat, 1000);
+            // İlk tab'ı göster
+            showTab('youtube');
         });
 
         // Global erişim için
@@ -1537,14 +1572,14 @@
             
             document.getElementById(tabName).classList.add('active');
             
-            // Element parametresi varsa onu aktif yap, yoksa tabName'e göre bul
-            if (element) {
+            // Element güvenli kontrolü
+            if (element && element.classList) {
                 element.classList.add('active');
             } else {
-                // İlk yükleme için default olarak YouTube'u aktif yap
-                const youtubeLink = document.querySelector('a[onclick*="youtube"]');
-                if (youtubeLink) {
-                    youtubeLink.classList.add('active');
+                // Fallback: tabName'e göre doğru linki bul
+                const targetLink = document.querySelector(`a[onclick*="${tabName}"]`);
+                if (targetLink) {
+                    targetLink.classList.add('active');
                 }
             }
             
@@ -1554,6 +1589,20 @@
             }
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Sohbet tab'ı açıldığında chat'i başlat
+            if (tabName === 'sohbet') {
+                console.log("Sohbet tab'ı açıldı");
+                setTimeout(() => {
+                    const container = document.getElementById('chat-messages-main');
+                    if (container) {
+                        console.log("Container bulundu, chat başlatılıyor");
+                        startChat();
+                    } else {
+                        console.log("Container hala bulunamadı");
+                    }
+                }, 200);
+            }
         }
 
         // Initialize
