@@ -1,17 +1,4 @@
-.theme-toggle {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: white;
-            border-radius: 50px;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .theme-toggle:hover {
-            background: rgba(79, 172, 254, 0.3);
-        }<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -23,10 +10,18 @@
             --primary-color: #4facfe;
             --secondary-color: #00f2fe;
             --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-dark: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             --text-primary: white;
             --text-secondary: rgba(255, 255, 255, 0.8);
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --bg-dark: linear-gradient(135deg, #0f0f23 0%, #0d1421 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -40,6 +35,30 @@
             background: var(--bg-primary);
             color: var(--text-primary);
             overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Particles Background */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            z-index: 1001;
+            transition: width 0.1s ease;
         }
 
         /* Header */
@@ -51,6 +70,7 @@
             backdrop-filter: blur(20px);
             z-index: 1000;
             padding: 1rem 0;
+            transition: all 0.3s ease;
         }
 
         nav {
@@ -100,13 +120,29 @@
             cursor: pointer;
         }
 
-        /* Tab Content - Güçlendirilmiş */
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: white;
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(79, 172, 254, 0.3);
+        }
+
+        /* Tab Content */
         .tab-content {
-            display: none !important;
+            display: none;
         }
 
         .tab-content.active {
-            display: block !important;
+            display: block;
         }
 
         /* Hero Section */
@@ -117,10 +153,12 @@
             justify-content: center;
             text-align: center;
             padding: 8rem 2rem 4rem;
+            position: relative;
         }
 
         .hero-content {
             max-width: 800px;
+            z-index: 2;
         }
 
         .hero h1 {
@@ -132,12 +170,14 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             line-height: 1.2;
+            animation: slideInUp 1s ease-out;
         }
 
         .hero-subtitle {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: rgba(255, 255, 255, 0.9);
+            animation: slideInUp 1s ease-out 0.2s both;
         }
 
         .hero-description {
@@ -145,6 +185,7 @@
             margin-bottom: 2rem;
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
+            animation: slideInUp 1s ease-out 0.4s both;
         }
 
         .hero-buttons {
@@ -152,6 +193,7 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            animation: slideInUp 1s ease-out 0.6s both;
         }
 
         .cta-button {
@@ -178,11 +220,34 @@
             backdrop-filter: blur(20px);
         }
 
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         /* Section */
         .section {
             padding: 4rem 2rem;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
+            position: relative;
         }
 
         .container {
@@ -198,15 +263,15 @@
             color: white;
         }
 
-        /* Grid */
-        .grid {
+        /* Widgets */
+        .widgets-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-top: 3rem;
+            margin: 3rem 0;
         }
 
-        .card {
+        .widget {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
@@ -214,43 +279,43 @@
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            text-align: center;
         }
 
-        .card:hover {
+        .widget:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
         }
 
-        .card-icon {
-            font-size: 3rem;
+        .widget h3 {
             margin-bottom: 1rem;
+            color: var(--primary-color);
         }
 
-        .card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
+        .subscriber-count {
+            font-size: 2rem;
+            font-weight: 900;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .discord-widget {
+            background: #5865F2;
             color: white;
         }
 
-        .card p {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* Chat */
+        /* Live Chat */
         .chat-container {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 1.5rem;
             backdrop-filter: blur(20px);
+            max-height: 400px;
+            overflow-y: auto;
         }
 
         .chat-messages {
-            min-height: 300px;
-            max-height: 400px;
-            overflow-y: auto;
+            min-height: 200px;
             margin-bottom: 1rem;
         }
 
@@ -259,6 +324,7 @@
             margin: 0.5rem 0;
             padding: 0.5rem 1rem;
             border-radius: 10px;
+            animation: slideInUp 0.3s ease;
         }
 
         .chat-input-group {
@@ -290,6 +356,97 @@
             transition: all 0.3s ease;
         }
 
+        .chat-send:hover {
+            transform: scale(1.05);
+        }
+
+        /* News Section */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .news-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-date {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .news-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .card-icon img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
         /* Stats */
         .stats-grid {
             display: grid;
@@ -309,86 +466,23 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+        }
+
         .stat-number {
             font-size: 3rem;
             font-weight: 900;
             color: white;
             margin-bottom: 0.5rem;
+            animation: pulse 2s infinite;
         }
 
         .stat-label {
             font-size: 1.1rem;
             color: var(--text-secondary);
             font-weight: 500;
-        }
-
-        /* Widgets */
-        .widgets-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .widget {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(20px);
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-
-        .subscriber-count {
-            font-size: 2rem;
-            font-weight: 900;
-            color: white;
-        }
-
-        .discord-widget {
-            background: #5865F2;
-            color: white;
-        }
-
-        /* Video Grid */
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .video-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 1.5rem;
-            backdrop-filter: blur(20px);
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .video-thumbnail {
-            width: 100%;
-            height: 200px;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
-
-        .video-thumbnail iframe {
-            width: 100%;
-            height: 100%;
-            border-radius: 15px;
-        }
-
-        .video-card h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 0.5rem;
         }
 
         /* Commands */
@@ -407,6 +501,11 @@
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .command-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
         }
 
         .command-category h3 {
@@ -433,40 +532,71 @@
             margin-right: 0.5rem;
         }
 
-        /* News */
-        .news-grid {
+        /* Video Grid */
+        .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             margin-top: 3rem;
         }
 
-        .news-card {
+        .video-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 1.5rem;
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        .news-date {
-            color: var(--primary-color);
-            font-size: 0.9rem;
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .video-thumbnail iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+        }
+
+        .video-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
             margin-bottom: 0.5rem;
         }
 
-        .news-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: white;
+        .video-card p {
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
 
-        .news-content {
-            color: var(--text-secondary);
-            line-height: 1.6;
+        /* Easter Eggs */
+        .easter-egg {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><rect width="50" height="50" fill="%2300ff00"/><rect x="10" y="10" width="30" height="30" fill="%23000"/></svg>');
+            z-index: 999;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .easter-egg.show {
+            opacity: 1;
+            pointer-events: all;
         }
 
         /* Coming Soon */
@@ -480,6 +610,7 @@
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.05);
             border: 2px dashed rgba(255, 255, 255, 0.3);
+            animation: pulse 2s infinite;
         }
 
         /* Footer */
@@ -522,6 +653,7 @@
             .video-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            
             .widgets-section {
                 grid-template-columns: 1fr;
             }
@@ -571,6 +703,14 @@
                 line-height: 1.1;
             }
 
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
             .section {
                 padding: 3rem 1rem;
             }
@@ -612,6 +752,10 @@
     </style>
 </head>
 <body>
+    <div class="scroll-progress"></div>
+    <canvas id="particles-canvas"></canvas>
+    <div class="easter-egg" id="easter-egg"></div>
+
     <header>
         <nav>
             <a href="#" class="logo">
@@ -642,63 +786,211 @@
                     <a href="https://www.youtube.com/@BenYasoMinecraft" class="cta-button" target="_blank">
                         <span>🎥</span> Kanala Git
                     </a>
+                    <a href="#" class="cta-button secondary" onclick="scrollToSection('about')">
+                        <span>👤</span> Hakkımda
+                    </a>
                 </div>
             </div>
-    </div>
+        </section>
 
-    <!-- Discord Bot Tab -->
-    <div id="discord" class="tab-content">
-        <section class="hero">
-            <div class="hero-content">
-                <h1>BenYasoBOT</h1>
-                <p class="hero-subtitle">Yeni Nesil Yapay Zeka Discord Botu</p>
-                <p class="hero-description">Özel Discord sunucumuz için geliştirilmiş yapay zeka destekli bot</p>
-                <div class="hero-buttons">
-                    <a href="#" class="cta-button">
-                        <span>🚀</span> Sunucuya Katıl
-                    </a>
+        <section class="section" id="about">
+            <div class="container">
+                <h2 class="section-title">Hakkımda</h2>
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-icon">🎮</div>
+                        <h3>Ben Kimim?</h3>
+                        <p>15 yaşındayım, Boş vakitlerimde Minecraft oynuyor, survival videoları çekip kendi tarzımla montajlıyorum. Oyunda sadece yapı yapmıyor, her bölümde yeni bir fikir deniyorum.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">💻</div>
+                        <h3>Teknolojiye Meraklıyım</h3>
+                        <p>Kendi Discord botumu geliştiriyorum. Botum hem eğlenceli komutlara sahip hem de sunucu için faydalı sistemler barındırıyor.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-icon">📸</div>
+                        <h3>YouTube'a Gönül Verdik</h3>
+                        <p>Kendi dünyamı insanlara göstermek hoşuma gidiyor. Yaptığım yapılar, yaşadığım olaylar, kurguladığım sahneler… Her videosu farklı, her anı eğlenceli. Amacım sıradan olmak değil, fark yaratmak.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="section">
             <div class="container">
+                <h2 class="section-title">Sizin İçin</h2>
+                <div class="video-grid">
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/EeoXOVbdvvI?start=10" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h3>BAŞLANGIÇ EVİ ve ELMASLAR! 💎</h3>
+                        <p>Yeni survival dünyamda ilk adımları atıyoruz!</p>
+                    </div>
+                    
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/cv_MR4wkJew?start=10" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h3>SERVET III! 💎 Köylülerle Ticarete Başladık</h3>
+                        <p>Köylülerle ilk ticaretimizi yapıyoruz ve SERVET III büyüsünü kapıyoruz! 💎</p>
+                    </div>
+                    
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/xSuWk3eVgBg?start=10" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h3>MUTLU GHAST Buldum 👻</h3>
+                        <p>Oyunun yeni güncellemesinde eklenen en garip yaratıkla karşılaşıyoruz: Mutlu Ghast</p>
+                    </div>
+                    
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/QasOSbrPdiY?start=10" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h3>Mutlu Ghastlara Özel Alan Yaptım!</h3>
+                        <p>Onlar için özel bir bekleme alanı inşa ettim! Ahır mantığında çalışan bu yapıyla artık Ghast'larımız düzenli bir şekilde toplanıyor.</p>
+                    </div>
+
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/LnbUsA_6-tQ?start=10" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h3>Minecraft Köyünü Tamamen Yeniledim!</h3>
+                        <p>Önceki köyü tamamen kaldırdım ve yerine yepyeni bir köy inşa ettim.</p>
+                    </div>
+
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/4iiiG9m8aUk?start=10" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <h3>Köyü Korumak İçin DEV Gözcü Kulesi Yaptım!</h3>
+                        <p>Köyümüzü korumak için harika bir GÖZCÜ KULESİ inşa ettim.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Kanal İstatistikleri</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">600+</div>
+                        <div class="stat-label">Abone</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">130,000+</div>
+                        <div class="stat-label">Toplam İzlenme</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">115+</div>
+                        <div class="stat-label">Video Sayısı</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2023</div>
+                        <div class="stat-label">Başlangıç</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Canlı Veriler Tab -->
+    <div id="canli-veriler" class="tab-content">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Canlı Veriler</h1>
+                <p class="hero-subtitle">Gerçek Zamanlı İstatistikler</p>
+                <p class="hero-description">YouTube, Discord ve site istatistikleri canlı olarak güncelleniyor!</p>
+            </div>
+        </section>
+
+        <!-- Widgets Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Gerçek Zamanlı Veriler</h2>
+                <div class="widgets-section">
+                    <div class="widget">
+                        <h3>📺 YouTube Abone Sayısı</h3>
+                        <div class="subscriber-count" id="subscriber-count">622</div>
+                        <p>Gerçek zamanlı abone sayısı</p>
+                        <small style="color: rgba(255,255,255,0.6);">Her dakika güncellenir</small>
+                    </div>
+                    
+                    <div class="widget discord-widget">
+                        <h3>💬 Discord Sunucusu</h3>
+                        <div style="font-size: 1.5rem; margin: 1rem 0;">
+                            <span id="discord-members">Yükleniyor...</span> Üye Online
+                        </div>
+                        <div style="margin: 1rem 0;">
+                            <iframe src="https://discord.com/widget?id=1385317817888411729&theme=dark" width="100%" height="300" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" style="border-radius: 10px; max-width: 100%;"></iframe>
+                        </div>
+                        <small style="color: rgba(255,255,255,0.6); display: block; margin-top: 0.5rem;">Gerçek zamanlı Discord widget</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div id="discord" class="tab-content">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>BenYasoBOT</h1>
+                <p class="hero-subtitle">Yeni Nesil Yapay Zeka Discord Botu</p>
+                <p class="hero-description">Özel Discord sunucumuz için özel olarak geliştirilmiş yapay zeka destekli, müzik, oyun ve ekonomi sistemi ile donatılmış premium bot deneyimi</p>
+                <div class="hero-buttons">
+                    <a href="#" class="cta-button">
+                        <span>🚀</span> Sunucuya Katıl
+                    </a>
+                    <a href="#" class="cta-button secondary" onclick="scrollToSection('features')">
+                        <span>✨</span> Özellikleri Keşfet
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="features">
+            <div class="container">
                 <h2 class="section-title">Özellikler</h2>
                 <div class="grid">
                     <div class="card">
                         <div class="card-icon">🤖</div>
                         <h3>Yapay Zeka Asistanı</h3>
-                        <p>Groq API ile çalışan Llama 3.1 70B modeli. Günde 500,000 token limiti ile ultra hızlı yanıtlar.</p>
+                        <p>Groq API ile çalışan Llama 3.1 70B modeli. Günde 500,000 token limiti ile ultra hızlı yanıtlar ve mükemmel Türkçe desteği.</p>
                     </div>
                     
                     <div class="card">
                         <div class="card-icon">🎵</div>
                         <h3>Profesyonel Müzik Sistemi</h3>
-                        <p>YouTube entegrasyonu, gelişmiş kuyruk sistemi, otomatik arama önerileri.</p>
+                        <p>YouTube entegrasyonu, gelişmiş kuyruk sistemi, otomatik arama önerileri ve yüksek kalite ses akışı.</p>
                     </div>
                     
                     <div class="card">
-                        <div class="card-icon">💰</div>
+                        <div class="card-icon">
+                            <img src="https://i.postimg.cc/kgWr9BGY/money-1.png" alt="Ekonomi">
+                        </div>
                         <h3>Gelişmiş Ekonomi Sistemi</h3>
-                        <p>YASO Coin para birimi, günlük ödüller, zombi avlama, maden kazma sistemi.</p>
+                        <p>YASO Coin para birimi, günlük ödüller, zombi avlama, maden kazma ve jeton alım-satımı ile gerçek ekonomi simülasyonu.</p>
                     </div>
                     
                     <div class="card">
                         <div class="card-icon">🎰</div>
                         <h3>Casino ve Bahis Oyunları</h3>
-                        <p>Sayı tahmini, slot machine, blackjack, zar oyunu ile heyecan dolu casino deneyimi.</p>
+                        <p>Sayı tahmini, slot machine, blackjack, zar oyunu ve yazı-tura ile heyecan dolu casino deneyimi.</p>
                     </div>
                     
                     <div class="card">
                         <div class="card-icon">🎯</div>
                         <h3>Akıllı Kelime Oyunu</h3>
-                        <p>75,815 kelime havuzu, detaylı sıralama sistemi ve Türkçe kelime zinciri oyunu.</p>
+                        <p>75,815 kelime havuzu, detaylı sıralama sistemi ve Türkçe kelime zinciri oyunu ile eğlenceli öğrenme.</p>
                     </div>
                     
                     <div class="card">
                         <div class="card-icon">🎨</div>
                         <h3>AI Görsel Oluşturma</h3>
-                        <p>Pollinations Flux ile 7/24 görsel oluşturma, 6 farklı stil seçeneği.</p>
+                        <p>Pollinations Flux ile 7/24 görsel oluşturma, 6 farklı stil seçeneği ve hızlı üretim sistemi.</p>
                     </div>
                 </div>
             </div>
@@ -825,37 +1117,37 @@
                     <div class="news-card">
                         <div class="news-date">19 Temmuz 2025</div>
                         <h3 class="news-title">🎉 600 Abone Kutlaması!</h3>
-                        <p class="news-content">Harika bir kilometre taşına ulaştık! 600 abone barajını geçtik. Bu başarının kutlaması için özel bir video hazırlıyorum.</p>
+                        <p class="news-content">Harika bir kilometre taşına ulaştık! 600 abone barajını geçtik. Bu başarının kutlaması için özel bir video hazırlıyorum. Teşekkürler!</p>
                     </div>
                     
                     <div class="news-card">
                         <div class="news-date">15 Temmuz 2025</div>
                         <h3 class="news-title">🤖 Discord Bot Güncellemesi</h3>
-                        <p class="news-content">BenYasoBOT'a yeni özellikler eklendi! Artık AI görsel oluşturma özelliği ile kendi resimlerinizi yaratabilirsiniz.</p>
+                        <p class="news-content">BenYasoBOT'a yeni özellikler eklendi! Artık AI görsel oluşturma özelliği ile kendi resimlerinizi yaratabilirsiniz. Ayrıca kelime oyunu daha da geliştirildi.</p>
                     </div>
                     
                     <div class="news-card">
                         <div class="news-date">10 Temmuz 2025</div>
                         <h3 class="news-title">🏗️ Yeni Köy Projesi</h3>
-                        <p class="news-content">Minecraft dünyamda büyük bir köy renovasyonu yapıyorum! Eski köyü tamamen yıkıp yerine modern bir yerleşim kuracağım.</p>
+                        <p class="news-content">Minecraft dünyamda büyük bir köy renovasyonu yapıyorum! Eski köyü tamamen yıkıp yerine modern bir yerleşim kuracağım. Video serisi yakında!</p>
                     </div>
                     
                     <div class="news-card">
                         <div class="news-date">5 Temmuz 2025</div>
                         <h3 class="news-title">📺 Yeni Video Programı</h3>
-                        <p class="news-content">Artık daha düzenli video yüklemeye başlıyorum! Haftada 2-3 video hedefiyle yeni bir program başlattım.</p>
+                        <p class="news-content">Artık daha düzenli video yüklemeye başlıyorum! Haftada 2-3 video hedefiyle yeni bir program başlattım. Survival serisine ek olarak tutorial videoları da geliyor.</p>
                     </div>
                     
                     <div class="news-card">
                         <div class="news-date">1 Temmuz 2025</div>
                         <h3 class="news-title">🌐 Yeni Website!</h3>
-                        <p class="news-content">Kendi websitemi hayata geçirdim! Buradan tüm projelerimi, videolarımı ve bot özelliklerimi takip edebilirsiniz.</p>
+                        <p class="news-content">Kendi websitemi hayata geçirdim! Buradan tüm projelerimi, videolarımı ve bot özelliklerimi takip edebilirsiniz. Daha da güzel güncellemeler gelecek!</p>
                     </div>
                     
                     <div class="news-card">
                         <div class="news-date">25 Haziran 2025</div>
                         <h3 class="news-title">🎮 Minecraft Sunucu Planı</h3>
-                        <p class="news-content">Topluluk olarak büyüdüğümüz için Minecraft sunucusu açmayı planlıyorum. Discord'da fikir alışverişi yapıyoruz.</p>
+                        <p class="news-content">Topluluk olarak büyüdüğümüz için Minecraft sunucusu açmayı planlıyorum. Discord'da fikir alışverişi yapıyoruz. Siz de katılın ve görüşlerinizi paylaşın!</p>
                     </div>
                 </div>
             </div>
@@ -882,9 +1174,11 @@
     </footer>
 
     <script type="module">
+        // Firebase imports
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getDatabase, ref, push, onValue, query, orderByChild, limitToLast } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
 
+        // Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyC_IgO_xCzkeNGkaoCh59vdIWBQgu51Fmk",
             authDomain: "benyaso-2d53b.firebaseapp.com",
@@ -895,12 +1189,18 @@
             appId: "1:518556386840:web:abaa02ae4b42bd0eb5256d"
         };
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+        console.log("Firebase başlatıldı");
 
+        // Mesaj gönderme fonksiyonu
         window.sendMessage = function() {
-            const input = document.getElementById('chat-input');
-            if (!input) return;
+            const input = document.getElementById('chat-input-main');
+            if (!input) {
+                console.log("Input bulunamadı");
+                return;
+            }
 
             const text = input.value.trim();
             if (!text) return;
@@ -908,23 +1208,44 @@
             const userNames = ['Ziyaretçi', 'İzleyici', 'Fan', 'Oyuncu', 'Takipçi'];
             const userName = userNames[Math.floor(Math.random() * userNames.length)] + Math.floor(Math.random() * 1000);
 
-            push(ref(db, 'messages'), {
+            const message = {
                 text: text,
                 user: userName,
                 timestamp: Date.now()
-            });
+            };
 
+            push(ref(db, 'messages'), message);
             input.value = '';
+            console.log("Mesaj gönderildi:", text);
         };
 
+        // Mesajları dinleme
         function startChat() {
-            const messagesContainer = document.getElementById('chat-messages');
-            if (!messagesContainer) return;
+            const messagesContainer = document.getElementById('chat-messages-main');
+            if (!messagesContainer) {
+                console.log("Mesaj container bulunamadı");
+                // Tekrar dene
+                setTimeout(() => {
+                    const container2 = document.getElementById('chat-messages-main');
+                    if (container2) {
+                        console.log("Container ikinci denemede bulundu");
+                        startChatNow(container2);
+                    }
+                }, 500);
+                return;
+            }
 
+            startChatNow(messagesContainer);
+        }
+
+        function startChatNow(messagesContainer) {
+            console.log("startChatNow çağrıldı, container:", messagesContainer);
+            
             const messagesRef = ref(db, 'messages');
             const messagesQuery = query(messagesRef, orderByChild('timestamp'), limitToLast(50));
 
             onValue(messagesQuery, (snapshot) => {
+                console.log("Firebase'den mesajlar alındı");
                 messagesContainer.innerHTML = '';
 
                 if (snapshot.exists()) {
@@ -934,6 +1255,7 @@
                     });
 
                     messages.sort((a, b) => a.timestamp - b.timestamp);
+                    console.log(`${messages.length} mesaj yüklendi`);
 
                     messages.forEach(msg => {
                         const div = document.createElement('div');
@@ -947,6 +1269,7 @@
                         messagesContainer.appendChild(div);
                     });
                 } else {
+                    console.log("Henüz mesaj yok, başlangıç mesajları ekleniyor");
                     messagesContainer.innerHTML = `
                         <div class="chat-message">
                             <strong style="color: #4facfe;">BenYaso:</strong> Sohbet sistemine hoş geldiniz! 🎮
@@ -961,28 +1284,53 @@
                 }
 
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                console.log("Mesajlar görüntülendi ve scroll yapıldı");
             });
         }
 
+        // Enter tuşu desteği ve Tab click handlers
         document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(startChat, 1000);
-
-            const chatInput = document.getElementById('chat-input');
-            if (chatInput) {
-                chatInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        sendMessage();
-                    }
+            console.log("DOM yüklendi, event listener'lar ekleniyor...");
+            
+            // Tab linklerine click event ekle
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabName = this.getAttribute('data-tab');
+                    console.log(`Tab tıklandı: ${tabName}`);
+                    showTab(tabName, this);
                 });
-            }
+            });
+
+            // Enter tuşu desteği
+            setTimeout(() => {
+                const input = document.getElementById('chat-input-main');
+                if (input) {
+                    input.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            sendMessage();
+                        }
+                    });
+                    console.log("Chat input Enter desteği eklendi");
+                }
+            }, 1000);
+
+            // İlk tab'ı göster
+            console.log("İlk tab (YouTube) gösteriliyor");
+            showTab('youtube', document.querySelector('a[data-tab="youtube"]'));
         });
+
+        // Global erişim için
+        window.sendMainChatMessage = window.sendMessage;
     </script>
 
     <script>
+        // YouTube API Configuration
         const YOUTUBE_API_KEY = 'AIzaSyAwC6sByfoq9n4G72tfFtwf2XETXaSdg04';
         const CHANNEL_ID = 'UCTYeNjk3VZnXNfcC8ssvevQ';
         const DISCORD_GUILD_ID = '1385317817888411729';
 
+        // Real YouTube Data
         async function getRealYouTubeData() {
             try {
                 const response = await fetch(
@@ -1005,6 +1353,7 @@
             }
         }
 
+        // Real Discord Data
         async function getRealDiscordData() {
             try {
                 const response = await fetch(
@@ -1014,79 +1363,118 @@
                 if (response.ok) {
                     const data = await response.json();
                     return {
-                        onlineMembers: data.presence_count || 0
+                        onlineMembers: data.presence_count || 0,
+                        totalMembers: data.members ? data.members.length : 0
                     };
+                } else {
+                    console.log('Discord Widget etkin değil veya bulunamadı');
+                    return null;
                 }
-                return null;
             } catch (error) {
                 console.log('Discord API hatası:', error);
                 return null;
             }
         }
 
+        // Update YouTube Stats
         async function updateYouTubeStats() {
+            console.log('YouTube verileri güncelleniyor...');
             const data = await getRealYouTubeData();
             if (data) {
-                const subscriberElement = document.getElementById('subscriber-count');
-                const liveSubscriberElement = document.getElementById('live-subscriber-count');
-                const viewElement = document.getElementById('view-count');
-                const videoElement = document.getElementById('video-count');
+                console.log('YouTube verisi alındı:', data);
                 
-                if (subscriberElement) subscriberElement.textContent = data.subscribers.toLocaleString();
-                if (liveSubscriberElement) liveSubscriberElement.textContent = data.subscribers.toLocaleString();
-                if (viewElement) viewElement.textContent = data.views.toLocaleString();
-                if (videoElement) videoElement.textContent = data.videos.toLocaleString();
+                // Subscriber count widget
+                const subscriberElement = document.getElementById('subscriber-count');
+                if (subscriberElement) {
+                    subscriberElement.textContent = data.subscribers.toLocaleString();
+                }
+                
+                // Stats grid update
+                const statsCards = document.querySelectorAll('.stat-number');
+                if (statsCards.length >= 4) {
+                    statsCards[0].textContent = data.subscribers.toLocaleString();
+                    statsCards[1].textContent = data.views.toLocaleString();
+                    statsCards[2].textContent = data.videos.toLocaleString();
+                }
+            } else {
+                console.log('YouTube verisi alınamadı');
             }
         }
 
-        async function updateDiscordStats() {
+        // Update Discord Stats
+        async function updateRealDiscordStats() {
+            console.log('Discord verileri güncelleniyor...');
             const data = await getRealDiscordData();
             const membersElement = document.getElementById('discord-members');
             
             if (data && membersElement) {
+                console.log('Discord verisi alındı:', data);
                 membersElement.textContent = data.onlineMembers;
-            }
-        }
-
-        function showTab(tabName, clickedElement) {
-            console.log('Tab değiştiriliyor:', tabName);
-            
-            // Tüm tab'ları gizle
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-                tab.style.display = 'none';
-            });
-            
-            // Tüm nav linklerini pasif yap
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            // Seçilen tab'ı göster
-            const targetTab = document.getElementById(tabName);
-            if (targetTab) {
-                targetTab.classList.add('active');
-                targetTab.style.display = 'block';
-                console.log('Tab gösterildi:', tabName);
             } else {
-                console.log('Tab bulunamadı:', tabName);
+                console.log('Discord verisi alınamadı, rastgele sayı kullanılıyor');
+                // Widget etkin değilse rastgele sayı
+                if (membersElement) {
+                    const count = Math.floor(Math.random() * 20) + 35;
+                    membersElement.textContent = count;
+                }
             }
-            
-            // Tıklanan linki aktif yap
-            if (clickedElement) {
-                clickedElement.classList.add('active');
-            }
-            
-            // Mobil menüyü kapat
-            const navLinks = document.getElementById('nav-links');
-            if (navLinks) {
-                navLinks.classList.remove('active');
-            }
-            
-            // Üste scroll
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // Particles Animation
+        class ParticleSystem {
+            constructor() {
+                this.canvas = document.getElementById('particles-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.resize();
+                this.init();
+                this.animate();
+                
+                window.addEventListener('resize', () => this.resize());
+            }
+            
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            
+            init() {
+                for (let i = 0; i < 50; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 0.5,
+                        vy: (Math.random() - 0.5) * 0.5,
+                        size: Math.random() * 3 + 1,
+                        opacity: Math.random() * 0.5 + 0.1
+                    });
+                }
+            }
+            
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                this.particles.forEach(particle => {
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                    
+                    if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1;
+                    if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1;
+                    
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    this.ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
+                    this.ctx.fill();
+                });
+                
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // Initialize particles
+        new ParticleSystem();
+
+        // Theme Toggle
         function toggleTheme() {
             const body = document.body;
             const themeToggle = document.querySelector('.theme-toggle');
@@ -1102,6 +1490,200 @@
             }
         }
 
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            }
+        });
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset;
+            const progress = (scrollTop / (docHeight - winHeight)) * 100;
+            
+            document.querySelector('.scroll-progress').style.width = progress + '%';
+        });
+
+        // Live Chat System (eski demo sistemi kaldırıldı)
+        // Artık Firebase ile gerçek zamanlı chat var
+
+        // Enter key for chat (güncellenmiş)
+        document.getElementById('chat-input')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendFirebaseMessage();
+            }
+        });
+
+        // YouTube Subscriber Counter Animation
+        function animateCounter() {
+            const counter = document.getElementById('subscriber-count');
+            const target = 623;
+            let current = 600;
+            
+            const increment = () => {
+                if (current < target) {
+                    current += Math.ceil(Math.random() * 3);
+                    counter.textContent = current + '+';
+                    setTimeout(increment, 100);
+                }
+            };
+            
+            setTimeout(increment, 2000);
+        }
+
+        // Discord Members Counter (eski kodu sil)
+        // updateDiscordMembers fonksiyonu artık updateRealDiscordStats ile değiştirildi
+
+        // Easter Egg
+        let clickCount = 0;
+        document.addEventListener('click', function(e) {
+            if (e.ctrlKey && e.altKey) {
+                clickCount++;
+                if (clickCount >= 3) {
+                    showEasterEgg();
+                    clickCount = 0;
+                }
+            }
+        });
+
+        function showEasterEgg() {
+            const easterEgg = document.getElementById('easter-egg');
+            easterEgg.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+            easterEgg.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+            easterEgg.classList.add('show');
+            
+            setTimeout(() => {
+                easterEgg.classList.remove('show');
+            }, 3000);
+        }
+
+        // Tab System - Basit ve güvenli
+        function showTab(tabName, clickedElement) {
+            console.log(`Tab değiştiriliyor: ${tabName}`);
+            
+            // Tüm tab'ları gizle
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Tüm nav linklerini pasif yap
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Seçilen tab'ı göster
+            const targetTab = document.getElementById(tabName);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+            
+            // Tıklanan linki aktif yap
+            if (clickedElement) {
+                clickedElement.classList.add('active');
+            }
+            
+            // Mobil menüyü kapat
+            const navLinks = document.getElementById('nav-links');
+            if (navLinks) {
+                navLinks.classList.remove('active');
+            }
+            
+            // Üste scroll
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Sohbet tab'ı özel kontrolü - ZORLA DEBUG
+            if (tabName === 'sohbet') {
+                console.log("🔥 SOHBET TAB'I SEÇİLDİ!");
+                console.log("DOM elementleri kontrol ediliyor...");
+                
+                // 1 saniye bekle, sonra debug başlat
+                setTimeout(() => {
+                    console.log("⏰ 1 saniye sonra debug başlıyor...");
+                    initializeChatSystem();
+                }, 1000);
+            }
+        }
+
+        // Chat sistemini başlat - MANUAL DEBUG
+        function initializeChatSystem() {
+            console.log("=== CHAT DEBUG BAŞLADI ===");
+            
+            // Mevcut tüm elementleri listele
+            console.log("Sohbet tab'ı var mı:", document.getElementById('sohbet'));
+            console.log("chat-messages-main var mı:", document.getElementById('chat-messages-main'));
+            
+            // Tüm chat-messages class'ı olan elementleri bul
+            const allChatMessages = document.querySelectorAll('.chat-messages');
+            console.log("Tüm chat-messages elementleri:", allChatMessages);
+            
+            // Sohbet tab'ındaki tüm elementleri listele
+            const sohbetTab = document.getElementById('sohbet');
+            if (sohbetTab) {
+                console.log("Sohbet tab içeriği:", sohbetTab.innerHTML.substring(0, 200));
+                const chatDivs = sohbetTab.querySelectorAll('div');
+                console.log("Sohbet tab'ındaki div sayısı:", chatDivs.length);
+            }
+            
+            // Manuel container arama
+            let container = document.getElementById('chat-messages-main');
+            
+            // Eğer bulamazsa alternatif ara
+            if (!container) {
+                console.log("ID ile bulunamadı, class ile arıyorum...");
+                const chatContainers = document.querySelectorAll('.chat-messages');
+                for (let i = 0; i < chatContainers.length; i++) {
+                    console.log(`Chat container ${i}:`, chatContainers[i]);
+                    if (chatContainers[i].id === 'chat-messages-main') {
+                        container = chatContainers[i];
+                        console.log("Container bulundu!");
+                        break;
+                    }
+                }
+            }
+            
+            if (!container) {
+                console.log("KESİNLİKLE BULUNAMADI! 1 saniye sonra tekrar deniyorum...");
+                setTimeout(initializeChatSystem, 1000);
+                return;
+            }
+            
+            console.log("=== CONTAINER BULUNDU! ===", container);
+            startChatNow(container);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showTab('youtube');
+            
+            // İlk veri yüklemesi
+            updateYouTubeStats();
+            updateRealDiscordStats();
+            
+            // Periyodik güncellemeler
+            setInterval(updateYouTubeStats, 60000); // Her dakika YouTube
+            setInterval(updateRealDiscordStats, 30000); // Her 30 saniye Discord
+            
+            console.log('Gerçek zamanlı veriler aktif!');
+        });
+
+        // Mobile Navigation
+        document.getElementById('nav-toggle').addEventListener('click', function() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                document.getElementById('nav-links').classList.remove('active');
+            });
+        });
+
+        // Scroll to section function
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
@@ -1114,233 +1696,15 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tema yükle
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
-                document.querySelector('.theme-toggle').textContent = '☀️';
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(0, 0, 0, 0.4)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.2)';
             }
-
-            // Tab click events - Güçlendirilmiş
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const tabName = this.getAttribute('data-tab');
-                    console.log('Tab tıklandı:', tabName);
-                    
-                    if (tabName) {
-                        showTab(tabName, this);
-                    }
-                });
-            });
-
-            // Mobile menu
-            document.getElementById('nav-toggle').addEventListener('click', function() {
-                const navLinks = document.getElementById('nav-links');
-                navLinks.classList.toggle('active');
-            });
-
-            // İlk veri yükleme
-            updateYouTubeStats();
-            updateDiscordStats();
-            
-            // Periyodik güncellemeler
-            setInterval(updateYouTubeStats, 60000);
-            setInterval(updateDiscordStats, 30000);
-            
-            // İlk tab'ı göster
-            showTab('youtube', document.querySelector('a[data-tab="youtube"]'));
         });
     </script>
 </body>
 </html>
-
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">Hakkımda</h2>
-                <div class="grid">
-                    <div class="card">
-                        <div class="card-icon">🎮</div>
-                        <h3>Ben Kimim?</h3>
-                        <p>15 yaşındayım, Boş vakitlerimde Minecraft oynuyor, survival videoları çekip kendi tarzımla montajlıyorum.</p>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">💻</div>
-                        <h3>Teknolojiye Meraklıyım</h3>
-                        <p>Kendi Discord botumu geliştiriyorum. Botum hem eğlenceli komutlara sahip hem de sunucu için faydalı sistemler barındırıyor.</p>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-icon">📸</div>
-                        <h3>YouTube'a Gönül Verdik</h3>
-                        <p>Kendi dünyamı insanlara göstermek hoşuma gidiyor. Yaptığım yapılar, yaşadığım olaylar, kurguladığım sahneler…</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">Sizin İçin</h2>
-                <div class="video-grid">
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/EeoXOVbdvvI?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>BAŞLANGIÇ EVİ ve ELMASLAR! 💎</h3>
-                        <p>Yeni survival dünyamda ilk adımları atıyoruz!</p>
-                    </div>
-                    
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/cv_MR4wkJew?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>SERVET III! 💎 Köylülerle Ticarete Başladık</h3>
-                        <p>Köylülerle ilk ticaretimizi yapıyoruz ve SERVET III büyüsünü kapıyoruz!</p>
-                    </div>
-                    
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/xSuWk3eVgBg?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>MUTLU GHAST Buldum 👻</h3>
-                        <p>Oyunun yeni güncellemesinde eklenen en garip yaratıkla karşılaşıyoruz</p>
-                    </div>
-                    
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/QasOSbrPdiY?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>Mutlu Ghastlara Özel Alan Yaptım!</h3>
-                        <p>Onlar için özel bir bekleme alanı inşa ettim!</p>
-                    </div>
-
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/LnbUsA_6-tQ?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>Minecraft Köyünü Tamamen Yeniledim!</h3>
-                        <p>Önceki köyü tamamen kaldırdım ve yerine yepyeni bir köy inşa ettim.</p>
-                    </div>
-
-                    <div class="video-card">
-                        <div class="video-thumbnail">
-                            <iframe src="https://www.youtube.com/embed/4iiiG9m8aUk?start=10" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <h3>Köyü Korumak İçin DEV Gözcü Kulesi Yaptım!</h3>
-                        <p>Köyümüzü korumak için harika bir GÖZCÜ KULESİ inşa ettim.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">Kanal İstatistikleri</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number" id="subscriber-count">622</div>
-                        <div class="stat-label">Abone</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="view-count">130,000</div>
-                        <div class="stat-label">Toplam İzlenme</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="video-count">115</div>
-                        <div class="stat-label">Video Sayısı</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">2023</div>
-                        <div class="stat-label">Başlangıç</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    
-    <!-- Canlı Veriler Tab -->
-    <div id="canli-veriler" class="tab-content">
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Canlı Veriler</h1>
-                <p class="hero-subtitle">Gerçek Zamanlı İstatistikler</p>
-                <p class="hero-description">YouTube ve Discord istatistikleri canlı olarak güncelleniyor!</p>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <h2 class="section-title">Gerçek Zamanlı Veriler</h2>
-                <div class="widgets-section">
-                    <div class="widget">
-                        <h3>📺 YouTube Abone Sayısı</h3>
-                        <div class="subscriber-count" id="live-subscriber-count">622</div>
-                        <p>Gerçek zamanlı abone sayısı</p>
-                        <small style="color: rgba(255,255,255,0.6);">Her dakika güncellenir</small>
-                    </div>
-                    
-                    <div class="widget discord-widget">
-                        <h3>💬 Discord Sunucusu</h3>
-                        <div style="font-size: 1.5rem; margin: 1rem 0;">
-                            <span id="discord-members">1</span> Üye Online
-                        </div>
-                        <div style="margin: 1rem 0;">
-                            <iframe src="https://discord.com/widget?id=1385317817888411729&theme=dark" width="100%" height="300" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" style="border-radius: 10px; max-width: 100%;"></iframe>
-                        </div>
-                        <small style="color: rgba(255,255,255,0.6);">Gerçek zamanlı Discord widget</small>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Sohbet Tab -->
-    <div id="sohbet" class="tab-content">
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Gerçek Zamanlı Sohbet</h1>
-                <p class="hero-subtitle">Firebase ile Canlı Mesajlaşma</p>
-                <p class="hero-description">Diğer ziyaretçilerle anlık olarak sohbet edin!</p>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <div class="grid" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
-                    <div class="card">
-                        <h3>💬 Topluluk Sohbeti</h3>
-                        <div class="chat-container">
-                            <div class="chat-messages" id="chat-messages">
-                                <div class="chat-message">
-                                    <strong style="color: #4facfe;">BenYaso:</strong> Sohbet sistemine hoş geldiniz! 🎮
-                                </div>
-                                <div class="chat-message">
-                                    <strong style="color: #00f2fe;">Sistem:</strong> Bu gerçek zamanlı bir sohbet sistemi.
-                                </div>
-                                <div class="chat-message">
-                                    <strong style="color: #4facfe;">BenYaso:</strong> İlk mesajı siz atın! 🎥
-                                </div>
-                            </div>
-                            <div class="chat-input-group">
-                                <input type="text" class="chat-input" id="chat-input" placeholder="Mesajınızı yazın..." maxlength="200">
-                                <button class="chat-send" onclick="sendMessage()">Gönder</button>
-                            </div>
-                        </div>
-                        <div style="margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 10px;">
-                            <h4 style="color: #4facfe; margin-bottom: 0.5rem;">📋 Sohbet Kuralları:</h4>
-                            <ul style="color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-left: 1rem;">
-                                <li>Saygılı olun ve kibar davranın</li>
-                                <li>Spam mesaj göndermekten kaçının</li>
-                                <li>Kişisel bilgilerinizi paylaşmayın</li>
-                                <li>Eğlenceli sohbetler için emojiler kullanın! 🎮🎥</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
